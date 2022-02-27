@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7456a9c0-63cd-4a39-a740-9fa15ed73f99" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/new.py" beforeDir="false" afterPath="$PROJECT_DIR$/new.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,10 +20,12 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="25X6rkmyLkb5Pq4SLD0vnxtlc0r" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/news_.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -133,8 +136,16 @@
       <workItem from="1645661290332" duration="112000" />
       <workItem from="1645661423595" duration="1392000" />
       <workItem from="1645687065378" duration="3273000" />
-      <workItem from="1645696295290" duration="27623000" />
+      <workItem from="1645696295290" duration="27870000" />
     </task>
+    <task id="LOCAL-00001" summary="+">
+      <created>1645920009110</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1645920009110</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,6 +161,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="+" />
+    <option name="LAST_COMMIT_MESSAGE" value="+" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
