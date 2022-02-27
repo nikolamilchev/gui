@@ -41,7 +41,8 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.static_data = None
         self.move_data = None
         self.download()
-        self.pushButton.clicked.connect(self.calc)  # Выполнить функцию browse_folder
+        self.pushButton.clicked.connect(self.calc)  # Выполнить вычисления
+        self.lineEdit.textChanged[str].connect(self.change_value)
         # Устанавливаем заголовки таблицы
         sld = self.horizontalSlider
 
@@ -50,7 +51,11 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         sld.valueChanged[int].connect(self.changeValue)
         data = pd.DataFrame([[]])
         self.plot_(data)
-    def changeValue(self, value):
+    def change_value(self,value):
+        self.time_index = value
+
+
+    def changeValue(self, value):# Toolbar
         self.time_index = value
         self.lineEdit.setText(str(value))
     def download(self):
