@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 import design
 import scipy.io
+import threading
 import numpy as np
 import pandas as pd
 
@@ -15,6 +16,7 @@ import pyqtgraph as pg
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
+import time
 
 import sys
 import matplotlib
@@ -49,8 +51,20 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
 
         sld.valueChanged[int].connect(self.changeValue)
+        self.pushButton_2.clicked.connect(self.time_start)
+        self.pushButton_3.clicked.connect(self.time_stop)
         data = pd.DataFrame([[]])
         self.plot_(data)
+    def timer(self,arg):
+        self.time_index = 0
+        while arg:
+            time.sleep(1)
+            self.time_index += 1
+            self.lineEdit.setText(str(self.time_index))
+    def time_start(self):
+        t = threading.Thread(target=self.timer, args=(True))
+    def time_stop(self):
+        t = threading.Thread(target=self.timer, args=(False))
     def change_value(self,value):
         self.time_index = value
 
