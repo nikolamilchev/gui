@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7456a9c0-63cd-4a39-a740-9fa15ed73f99" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinamic.mlx" beforeDir="false" afterPath="$PROJECT_DIR$/dinamic.mlx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +141,7 @@
       <workItem from="1645696295290" duration="27870000" />
       <workItem from="1645920490207" duration="162000" />
       <workItem from="1645976099488" duration="197000" />
-      <workItem from="1645976639298" duration="1218000" />
+      <workItem from="1645976639298" duration="1822000" />
     </task>
     <task id="LOCAL-00001" summary="+">
       <created>1645920009110</created>
