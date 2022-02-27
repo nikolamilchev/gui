@@ -49,12 +49,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.time_index = value
         self.lineEdit.setText(str(value))
     def download(self):
-        self.static_data  = scipy.io.loadmat('../walk 5km0001.mat')
-        self.move_data = scipy.io.loadmat('../statica0001.mat')
+        self.static_data  = scipy.io.loadmat('walk 5km0001.mat')
+        self.move_data = scipy.io.loadmat('statica0001.mat')
 
     def calc(self):
-        walk_5km0001 = scipy.io.loadmat('../walk 5km0001.mat')
-        statica0001 = scipy.io.loadmat('../statica0001.mat')
+        walk_5km0001 = self.static_data
+        statica0001 = self.move_data
         data_dynamic = walk_5km0001['walk_5km0001'][0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
             0]  # следующий индекс - номер маркера
         data_static = statica0001['statica0001'][0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
