@@ -102,7 +102,6 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         for i in range(3000):
             param_3.append(np.dot(vect, vect_1[:, i]))
 
-        param_3
         # фронтальный наклон грудной клетки относительно таза
         vect = [0, 1, 0]
         vect_1 = data_dynamic[5, 0:3] - v2
@@ -110,7 +109,6 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         for i in range(3000):
             param_4.append(np.dot(vect, vect_1[:, i]))
 
-        param_4
         # торсия груди относительно пола
         vect = [1, 0, 0]
         vect_1 = data_dynamic[15, 0:3] - data_dynamic[10, 0:3]
@@ -118,15 +116,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         for i in range(3000):
             param_5.append(np.dot(vect, vect_1[:, i]))
 
-        param_5
         # торсия груди относительно таза
         vect = [1, 0, 0]
         vect_1 = data_dynamic[15, 0:3] - v2
         param_6 = []
         for i in range(3000):
             param_6.append(np.dot(vect, vect_1[:, i]))
-
-        param_6
         # наклон головы относительно пола
         vect = [1, 0, 0]
         vect_1 = data_dynamic[2, 0:3] - data_dynamic[10, 0:3]
@@ -134,7 +129,6 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         for i in range(3000):
             param_7.append(np.dot(vect, vect_1[:, i]))
 
-        param_7
         # наклон головы  относительно тела
         vect = [1, 0, 0]
         vect_1 = data_dynamic[2, 0:3] - v2
