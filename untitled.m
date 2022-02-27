@@ -22,9 +22,11 @@ function varargout = untitled(varargin)
 
 % Edit the above text to modify the response to help untitled
 
-% Last Modified by GUIDE v2.5 27-Feb-2022 19:41:40
+% Last Modified by GUIDE v2.5 27-Feb-2022 23:06:06
 
 % Begin initialization code - DO NOT EDIT
+global slider_value;
+slider_value = 0;
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
@@ -79,6 +81,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global slider_value;
 load('walk 5km0001.mat') 
   %corrected from my original version
    plot3(handles.axes1,walk_5km0001.Trajectories.Labeled.Data(:,1,1),walk_5km0001.Trajectories.Labeled.Data(:,2,1),walk_5km0001.Trajectories.Labeled.Data(:,3,1),'.','MarkerSize',20)
@@ -86,9 +89,38 @@ load('walk 5km0001.mat')
     text(walk_5km0001.Trajectories.Labeled.Data(:,1,1),walk_5km0001.Trajectories.Labeled.Data(:,2,1),walk_5km0001.Trajectories.Labeled.Data(:,3,1),walk_5km0001.Trajectories.Labeled.Labels(:))
     grid on
     rotate3d on;
+  
+ display(slider_value);
 % 
 %      axis([0 10 0 10 0 10])      
 %  plot(handles.axes2,walk_5km0001.Trajectories.Labeled.Data(:,2,1),walk_5km0001.Trajectories.Labeled.Data(:,3,1),'.','MarkerSize',20)   
 %  set(handles.axes2,'XMinorTick','on')
 %  text(walk_5km0001.Trajectories.Labeled.Data(:,2,1),walk_5km0001.Trajectories.Labeled.Data(:,3,1),walk_5km0001.Trajectories.Labeled.Labels(:))
 %  grid on
+
+
+% --- Executes on slider movement.
+function slider1_Callback(hObject, eventdata, handles)
+% hObject    handle to slider1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+slider_value = get(hObject,'Value');
+display(slider_value);
+
+
+
+
+% --- Executes during object creation, after setting all properties.
+function slider1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
