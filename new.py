@@ -36,11 +36,16 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         # и т.д. в файле design.py
         super().__init__()
         self.time_index = 0
+
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
+        self.static_data = None
+        self.move_data = None
+        self.download()
         self.pushButton.clicked.connect(self.calc)  # Выполнить функцию browse_folder
         # Устанавливаем заголовки таблицы
         sld = self.horizontalSlider
-        self.static_data = None
+
+
 
         sld.valueChanged[int].connect(self.changeValue)
         data = pd.DataFrame([[]])
