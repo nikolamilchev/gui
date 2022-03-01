@@ -9,7 +9,7 @@ import scipy.io
 import threading
 import numpy as np
 import pandas as pd
-
+from pyqtgraph import PlotWidget, plot
 from PyQt5 import QtWidgets, uic
 from pyqtgraph import PlotWidget, plot
 
@@ -97,6 +97,10 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         # и т.д. в файле design.py
         super().__init__()
         self.time_index = 0
+        grid = QtWidgets.QGridLayout(self.centralwidget)
+        grid.addWidget(self.graphWidget, 0, 0)
+
+        self.plot([1,2,3,4,5,6,7,8,9,10], [30,32,34,32,33,31,29,32,35,45])
 
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
         self.static_data = None
@@ -112,6 +116,9 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.pushButton_3.clicked.connect(self.time_stop)
         data = pd.DataFrame([[]])
         self.plot_(data)
+
+    def plot(self, hour, temperature):
+        self.graphWidget.plot(hour, temperature)
 
     def timer(self, arg):
         self.time_index = 0
@@ -339,16 +346,6 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         # переделать вывод использовать тул бар для вывода отрисовать графики
 
 
-
-    def plot_(self, data):
-
-        self.graphWidget = pg.PlotWidget()
-
-        hour = range(data.shape[0])
-        temperature = data.loc[0]
-
-        # plot data: x, y values
-        self.graphWidget.plot(hour, temperature)
 
 
 
