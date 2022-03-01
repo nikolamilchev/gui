@@ -373,8 +373,6 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.show_table(data_1,data_2)
 
     def show_table(self,data_1,data_2):
-        print(data_2[self.time_index])
-        print(data_1[self.time_index][0:1])
         model_1 = PandasModel(data_1[self.time_index].to_frame(name="time "+str(self.time_index)))
         model_2 = PandasModel(data_2[self.time_index].to_frame(name="time "+str(self.time_index)))
         self.tableView.setModel(model_1)
