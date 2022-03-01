@@ -13,7 +13,6 @@ from pyqtgraph import PlotWidget, plot
 from PyQt5 import QtWidgets, uic
 from pyqtgraph import PlotWidget, plot
 
-
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
@@ -34,8 +33,9 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget, QTa
 from PyQt5 import QtCore
 
 
+
 class PandasModel(QtCore.QAbstractTableModel):
-    def __init__(self, df = pd.DataFrame(), parent=None):
+    def __init__(self, df=pd.DataFrame(), parent=None):
         QtCore.QAbstractTableModel.__init__(self, parent=parent)
         self._df = df
 
@@ -46,13 +46,13 @@ class PandasModel(QtCore.QAbstractTableModel):
         if orientation == QtCore.Qt.Horizontal:
             try:
                 return self._df.columns.tolist()[section]
-            except (IndexError, ):
+            except (IndexError,):
                 return QtCore.QVariant()
         elif orientation == QtCore.Qt.Vertical:
             try:
                 # return self.df.index.tolist()
                 return self._df.index.tolist()[section]
-            except (IndexError, ):
+            except (IndexError,):
                 return QtCore.QVariant()
 
     def data(self, index, role=QtCore.Qt.DisplayRole):
@@ -87,9 +87,11 @@ class PandasModel(QtCore.QAbstractTableModel):
     def sort(self, column, order):
         colname = self._df.columns.tolist()[column]
         self.layoutAboutToBeChanged.emit()
-        self._df.sort_values(colname, ascending= order == QtCore.Qt.AscendingOrder, inplace=True)
+        self._df.sort_values(colname, ascending=order == QtCore.Qt.AscendingOrder, inplace=True)
         self._df.reset_index(inplace=True, drop=True)
         self.layoutChanged.emit()
+
+
 
 class ExampleApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -99,11 +101,11 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.time_index = 0
         uic.loadUi('design.ui', self)
         self.names_news = ['Сагиттальный наклон грудной клетки относительно пола',
-                                     'фронтальный наклон грудной клетки относительно пола',
-                                     'Сагиттальный наклон грудной клетки относительно таза',
-                                     'фронтальный наклон грудной клетки относительно таза',
-                                     'торсия груди относительно пола', 'торсия груди относительно таза',
-                                     'наклон головы относительно пола', 'наклон головы  относительно тела']
+                           'фронтальный наклон грудной клетки относительно пола',
+                           'Сагиттальный наклон грудной клетки относительно таза',
+                           'фронтальный наклон грудной клетки относительно таза',
+                           'торсия груди относительно пола', 'торсия груди относительно таза',
+                           'наклон головы относительно пола', 'наклон головы  относительно тела']
         self.names_old = ['APA', 'Dyn_Cobb', 'Dyn_LL', 'Dyn_PT', 'Dyn_SL', 'Dyn_SL_rotation', 'Dyn_TK']
         self.download_1()
         self.action.triggered.connect(self.download_1)
@@ -114,15 +116,15 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.comboBox.addItems(self.names_old)
         self.comboBox.currentTextChanged.connect(self.mini_plots)
         self.time_index = 0
-        self.mini_plots( value = 'Сагиттальный наклон грудной клетки относительно пола')
-        self.horizontalSlider.valueChanged.connect( self.change_value_1)
+        self.mini_plots(value='Сагиттальный наклон грудной клетки относительно пола')
+        self.horizontalSlider.valueChanged.connect(self.change_value_1)
         self.pushButton.clicked.connect(self.change_value)  # Выполнить вычисления
         self.calc_table()
         # Устанавливаем заголовки таблицы
         self.plot()
 
     def mini_plots(self, value):
-        df = pd.concat([self.old_data,self.new_data])
+        df = pd.concat([self.old_data, self.new_data])
         data_y = df.loc[value]
         data_x = range(len(data_y))
         self.parameter_plot.clear()
@@ -134,19 +136,19 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.time_index = int(value)
         self.lcdNumber.display(int(value))
 
-    def change_value(self,value):
+    def change_value(self, value):
         self.plot()
         self.calc_table()
 
-    def plot(self ):
+    def plot(self):
         data_dynamic = self.data_[0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
             0]  # следующий индекс - номер маркера
-        t= self.time_index
+        t = self.time_index
         x = data_dynamic[:, 0, t]
         y = data_dynamic[:, 2, t]
         self.sagital_widget.clear()
         self.sagital_widget.setBackground('w')
-        self.sagital_widget.plot(x,y,pen = None, symbol='o', symbolSize=10)
+        self.sagital_widget.plot(x, y, pen=None, symbol='o', symbolSize=10)
         self.sagital_widget.showGrid(x=True, y=True)
         x = data_dynamic[:, 1, t]
         y = data_dynamic[:, 2, t]
@@ -155,29 +157,15 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.front_widget.plot(x, y, pen=None, symbol='o', symbolSize=10)
         self.front_widget.showGrid(x=True, y=True)
 
-    def timer(self, arg):
-        self.time_index = 0
-        while arg:
-            time.sleep(1)
-            self.time_index += 1
-            self.lineEdit.setText(str(self.time_index))
-
-    def time_start(self):
-        t = threading.Thread(target=self.timer, args=(True))
-
-    def time_stop(self):
-        t = threading.Thread(target=self.timer, args=(False))
-
-
     def changeValue(self, value):  # Toolbar
         self.time_index = value
 
-    def download_1(self):
-        self.data_ = scipy.io.loadmat('walk 5km0001.mat')['walk_5km0001']
+    def download_2(self):
+        self.data_ = scipy.io.loadmat('data/walk 5km0001.mat')['walk_5km0001']
         self.horizontalSlider.setMaximum(2999)
 
-    def download_2(self):
-        self.data_ = scipy.io.loadmat('statica0001.mat')['statica0001']
+    def download_1(self):
+        self.data_ = scipy.io.loadmat('data/statica0001.mat')['statica0001']
         self.horizontalSlider.setMaximum(1726)
 
     def calc(self):
@@ -238,8 +226,10 @@ class ExampleApp(QtWidgets.QMainWindow):
 
         # calculation Dyn-Cobb angle
         # calculation Dyn-Cobb angle: angle between T9-T11 p39-c in plane ZY
-        l1 = np.array((data_dynamic[5, 1] - data_dynamic[4, 1], data_dynamic[5, 2] - data_dynamic[4, 2]))  # vector p39-c
-        l2 = np.array((data_dynamic[7, 1] - data_dynamic[6, 1], data_dynamic[7, 2] - data_dynamic[6, 2]))  # vector T9-T11
+        l1 = np.array(
+            (data_dynamic[5, 1] - data_dynamic[4, 1], data_dynamic[5, 2] - data_dynamic[4, 2]))  # vector p39-c
+        l2 = np.array(
+            (data_dynamic[7, 1] - data_dynamic[6, 1], data_dynamic[7, 2] - data_dynamic[6, 2]))  # vector T9-T11
 
         len_l1 = []
         len_l2 = []
@@ -252,7 +242,8 @@ class ExampleApp(QtWidgets.QMainWindow):
         # calculation Dyn-SL inclination : angle between R.ARC-L.ARC line Dyn-CVA(T1-S1) in plane ZY
         l1 = np.array(
             (data_dynamic[0, 1] - data_dynamic[1, 1], data_dynamic[0, 2] - data_dynamic[1, 2]))  # vector R.ARC-L.ARC
-        l2 = np.array((data_dynamic[2, 1] - data_dynamic[10, 1], data_dynamic[2, 2] - data_dynamic[10, 2]))  # vector T1-S1
+        l2 = np.array(
+            (data_dynamic[2, 1] - data_dynamic[10, 1], data_dynamic[2, 2] - data_dynamic[10, 2]))  # vector T1-S1
 
         len_l1 = []
         len_l2 = []
@@ -263,8 +254,10 @@ class ExampleApp(QtWidgets.QMainWindow):
             Dyn_SL.append(acos(np.dot(l1[:, i], l2[:, i]) / (len_l1[i] * len_l2[i])))
 
         # Dyn-TK angle: angle between T9-T11 p39-c in plane XZ
-        l1 = np.array((data_dynamic[4, 0] - data_dynamic[5, 0], data_dynamic[4, 2] - data_dynamic[5, 2]))  # vector p39-c
-        l2 = np.array((data_dynamic[6, 0] - data_dynamic[7, 0], data_dynamic[6, 2] - data_dynamic[7, 2]))  # vector T9-T11
+        l1 = np.array(
+            (data_dynamic[4, 0] - data_dynamic[5, 0], data_dynamic[4, 2] - data_dynamic[5, 2]))  # vector p39-c
+        l2 = np.array(
+            (data_dynamic[6, 0] - data_dynamic[7, 0], data_dynamic[6, 2] - data_dynamic[7, 2]))  # vector T9-T11
 
         len_l1 = []
         len_l2 = []
@@ -275,8 +268,10 @@ class ExampleApp(QtWidgets.QMainWindow):
             Dyn_TK.append(acos(np.dot(l1[:, i], l2[:, i]) / (len_l1[i] * len_l2[i])))
 
         # calculation Dyn-LL angle:   angle between T11-p114 L4-p114 in plane ZX
-        l1 = np.array((data_dynamic[9, 0] - data_dynamic[8, 0], data_dynamic[9, 2] - data_dynamic[8, 2]))  # vector L4-p114
-        l2 = np.array((data_dynamic[8, 0] - data_dynamic[7, 0], data_dynamic[8, 2] - data_dynamic[9, 2]))  # vector T11-p114
+        l1 = np.array(
+            (data_dynamic[9, 0] - data_dynamic[8, 0], data_dynamic[9, 2] - data_dynamic[8, 2]))  # vector L4-p114
+        l2 = np.array(
+            (data_dynamic[8, 0] - data_dynamic[7, 0], data_dynamic[8, 2] - data_dynamic[9, 2]))  # vector T11-p114
 
         len_l1 = []
         len_l2 = []
@@ -289,7 +284,8 @@ class ExampleApp(QtWidgets.QMainWindow):
         # calculation  Dyn-PT two ways
         # calculation Dyn-PT : angle between L.PSIS-L.ASIS and normal vector к ZY in plane ZX
         l1 = np.array(
-            (data_dynamic[11, 0] - data_dynamic[13, 1], data_dynamic[11, 2] - data_dynamic[13, 2]))  # vector L.PSIS-L.ASIS
+            (data_dynamic[11, 0] - data_dynamic[13, 1],
+             data_dynamic[11, 2] - data_dynamic[13, 2]))  # vector L.PSIS-L.ASIS
         l2 = np.array(
             (data_dynamic[11, 0] - data_dynamic[13, 1], data_dynamic[11, 2] - data_dynamic[1, 2]))  # normal vector
 
@@ -303,7 +299,8 @@ class ExampleApp(QtWidgets.QMainWindow):
             Dyn_PT.append(acos(np.dot(l1[:, i], l2[:, i]) / (len_l1[i] * len_l2[i])))
         # calculation Dyn-PT : angle between R.PSIS-R.ASIS and normal vector к ZY in plane ZX
         l1 = np.array(
-            (data_dynamic[12, 0] - data_dynamic[14, 0], data_dynamic[12, 2] - data_dynamic[14, 2]))  # vector L.PSIS-L.ASIS
+            (data_dynamic[12, 0] - data_dynamic[14, 0],
+             data_dynamic[12, 2] - data_dynamic[14, 2]))  # vector L.PSIS-L.ASIS
         l2 = np.array(
             (data_dynamic[12, 0] - data_dynamic[14, 0], data_dynamic[12, 2] - data_dynamic[12, 2]))  # normal    vector
 
@@ -317,7 +314,8 @@ class ExampleApp(QtWidgets.QMainWindow):
             Dyn_PT.append(acos(np.dot(l1[:, i], l2[:, i]) / (len_l1[i] * len_l2[i])))
         # calculation Dyn_SL_rotation : angle between R.ARC-L.ARC and normal vector of ZX in plane XY\
         l2 = np.array(
-            (data_dynamic[12, 0] - data_dynamic[13, 0], data_dynamic[12, 2] - data_dynamic[13, 2]))  # vector R.ASIS-L.ASIS
+            (data_dynamic[12, 0] - data_dynamic[13, 0],
+             data_dynamic[12, 2] - data_dynamic[13, 2]))  # vector R.ASIS-L.ASIS
 
         l1 = []
         for i in range(len(l2[0])):
@@ -351,7 +349,8 @@ class ExampleApp(QtWidgets.QMainWindow):
         l1 = np.array(
             (data_dynamic[1, 0] - data_dynamic[0, 0], data_dynamic[1, 2] - data_dynamic[0, 2]))  # vector L.PSIS-L.ASIS
         l2 = np.array(
-            (data_dynamic[13, 0] - data_dynamic[14, 0], data_dynamic[13, 2] - data_dynamic[14, 2]))  # vector R.ASIS-L.ASIS
+            (data_dynamic[13, 0] - data_dynamic[14, 0],
+             data_dynamic[13, 2] - data_dynamic[14, 2]))  # vector R.ASIS-L.ASIS
 
         len_l1 = []
         len_l2 = []
@@ -365,24 +364,20 @@ class ExampleApp(QtWidgets.QMainWindow):
                               index=self.names_news)
         data_2 = pd.DataFrame([APA, Dyn_Cobb, Dyn_LL, Dyn_PT, Dyn_SL, Dyn_SL_rotation, Dyn_TK],
                               index=self.names_old)
-        self.old_data=data_1
+        self.old_data = data_1
         self.new_data = data_2
+
     def calc_table(self):
         self.calc()
-        data_1,data_2 = self.old_data,self.new_data
-        self.show_table(data_1,data_2)
+        data_1, data_2 = self.old_data, self.new_data
+        self.show_table(data_1, data_2)
 
-    def show_table(self,data_1,data_2):
-        model_1 = PandasModel(data_1[self.time_index].to_frame(name="time "+str(self.time_index)))
-        model_2 = PandasModel(data_2[self.time_index].to_frame(name="time "+str(self.time_index)))
+    def show_table(self, data_1, data_2):
+        model_1 = PandasModel(data_1[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
+        model_2 = PandasModel(data_2[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
         self.tableView.setModel(model_1)
         self.tableView_2.setModel(model_2)
         # переделать вывод использовать тул бар для вывода отрисовать графики
-
-
-
-
-
 
 
 def main():

@@ -1,26 +1,40 @@
-import sys  
-from PyQt5 import QtWidgets, uic
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
+import sys
+import pandas as pd
+from PyQt5.QtWidgets import QApplication, QTableView
+from PyQt5.QtCore import QAbstractTableModel, Qt
 
+df = pd.DataFrame({'a': ['Mary', 'Jim', 'John'],
+                   'b': [ 1.322553, -71.841053, 300],
+                   'c': ['a', 'b', 'c']})
 
-class MainWindow(QtWidgets.QMainWindow):
+class pandasModel(QAbstractTableModel):
 
-    def __init__(self, *args, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
+    def __init__(self, data):
+        QAbstractTableModel.__init__(self)
+        self._data = data
 
-        # Загрузите страницу интерфейса
-        uic.loadUi('test_plot.ui', self)
+    def rowCount(self, parent=None):
+        return self._data.shape[0]
 
+    def columnCount(self, parnet=None):
+        return self._data.shape[1]
 
-        self.plot([1,2,3,4,5,6,7,8,9,10], [30,32,34,32,33,31,29,32,35,45])
+    def data(self, index, role=Qt.DisplayRole):
+        if index.isValid():
+            if role == Qt.DisplayRole:
+                return str(self._data.iloc[index.row(), index.column()])
+        return None
 
-    def plot(self, hour, temperature):
-        self.widget_2.plot(hour, temperature)
+    def headerData(self, col, orientation, role):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return self._data.columns[col]
+        return None
 
-
-if __name__ == '__main__': 
-    app = QtWidgets.QApplication(sys.argv)
-    main = MainWindow()
-    main.show()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    model = pandasModel(df)
+    view = QTableView()
+    view.setModel(model)
+    view.resize(800, 600)
+    view.show()
     sys.exit(app.exec_())

@@ -7,13 +7,33 @@
     <x>0</x>
     <y>0</y>
     <width>1265</width>
-    <height>770</height>
+    <height>688</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>350</y>
+      <width>471</width>
+      <height>281</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableView" name="tableView_2">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>350</y>
+      <width>256</width>
+      <height>281</height>
+     </rect>
+    </property>
+   </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -38,7 +58,7 @@
       <x>790</x>
       <y>370</y>
       <width>461</width>
-      <height>351</height>
+      <height>261</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -60,11 +80,37 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>0</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>фронтальная плоскость</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>0</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>сагиттальная плоскость</string>
+    </property>
+   </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>16</x>
-      <y>340</y>
+      <x>1040</x>
+      <y>250</y>
       <width>201</width>
       <height>82</height>
      </rect>
@@ -93,24 +139,6 @@
         <string>вычислить</string>
        </property>
       </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>430</y>
-      <width>761</width>
-      <height>291</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QTableView" name="tableView"/>
-     </item>
-     <item row="0" column="1">
-      <widget class="QTableView" name="tableView_2"/>
      </item>
     </layout>
    </widget>
