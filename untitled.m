@@ -45,6 +45,15 @@ else
 end
 % End initialization code - DO NOT EDIT
 
+function   setimer(val)
+global x
+x = val;
+
+
+function r = gettimer
+global x
+r = x
+
 
 
 % --- Executes just before untitled is made visible.
@@ -81,7 +90,6 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global slider_value;
 load('walk 5km0001.mat') 
   %corrected from my original version
    plot3(handles.axes1,walk_5km0001.Trajectories.Labeled.Data(:,1,1),walk_5km0001.Trajectories.Labeled.Data(:,2,1),walk_5km0001.Trajectories.Labeled.Data(:,3,1),'.','MarkerSize',20)
@@ -90,7 +98,7 @@ load('walk 5km0001.mat')
     grid on
     rotate3d on;
   
- display(slider_value);
+ display(gettimer);
 % 
 %      axis([0 10 0 10 0 10])      
 %  plot(handles.axes2,walk_5km0001.Trajectories.Labeled.Data(:,2,1),walk_5km0001.Trajectories.Labeled.Data(:,3,1),'.','MarkerSize',20)   
@@ -108,7 +116,7 @@ function slider1_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 slider_value = get(hObject,'Value');
-display(slider_value);
+setimer(slider_value);
 
 
 
