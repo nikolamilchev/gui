@@ -1,15 +1,8 @@
-import os
 from math import sqrt, acos
-
-
 import scipy.io
-
 import numpy as np
 import pandas as pd
-
 from PyQt5 import  uic
-
-
 import sys
 import matplotlib
 
