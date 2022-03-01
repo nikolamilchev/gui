@@ -91,34 +91,69 @@ class PandasModel(QtCore.QAbstractTableModel):
         self._df.reset_index(inplace=True, drop=True)
         self.layoutChanged.emit()
 
-class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
+class ExampleApp(QtWidgets.QMainWindow):
     def __init__(self):
         # Это здесь нужно для доступа к переменным, методам
         # и т.д. в файле design.py
         super().__init__()
         self.time_index = 0
-        grid = QtWidgets.QGridLayout(self.centralwidget)
-        grid.addWidget(self.graphWidget, 0, 0)
-
-        self.plot([1,2,3,4,5,6,7,8,9,10], [30,32,34,32,33,31,29,32,35,45])
-
-        self.setupUi(self)  # Это нужно для инициализации нашего дизайна
-        self.static_data = None
-        self.move_data = None
-        self.download()
-        self.pushButton.clicked.connect(self.calc)  # Выполнить вычисления
-        self.lineEdit.textChanged[str].connect(self.change_value)
+        uic.loadUi('design.ui', self)
+        self.names_news = ['Сагиттальный наклон грудной клетки относительно пола',
+                                     'фронтальный наклон грудной клетки относительно пола',
+                                     'Сагиттальный наклон грудной клетки относительно таза',
+                                     'фронтальный наклон грудной клетки относительно таза',
+                                     'торсия груди относительно пола', 'торсия груди относительно таза',
+                                     'наклон головы относительно пола', 'наклон головы  относительно тела']
+        self.names_old = ['APA', 'Dyn_Cobb', 'Dyn_LL', 'Dyn_PT', 'Dyn_SL', 'Dyn_SL_rotation', 'Dyn_TK']
+        self.download_1()
+        self.action.triggered.connect(self.download_1)
+        self.action_2.triggered.connect(self.download_2)
+        self.calc()
+        self.parameter_plot.setBackground('w')
+        self.comboBox.addItems(self.names_news)
+        self.comboBox.addItems(self.names_old)
+        self.comboBox.currentTextChanged.connect(self.mini_plots)
+        self.time_index = 0
+        self.mini_plots( value = 'Сагиттальный наклон грудной клетки относительно пола')
+        self.horizontalSlider.valueChanged.connect( self.change_value_1)
+        self.pushButton.clicked.connect(self.change_value)  # Выполнить вычисления
+        self.calc_table()
         # Устанавливаем заголовки таблицы
-        sld = self.horizontalSlider
+        self.plot()
 
-        sld.valueChanged[int].connect(self.changeValue)
-        self.pushButton_2.clicked.connect(self.time_start)
-        self.pushButton_3.clicked.connect(self.time_stop)
-        data = pd.DataFrame([[]])
-        self.plot_(data)
+    def mini_plots(self, value):
+        df = pd.concat([self.old_data,self.new_data])
+        data_y = df.loc[value]
+        data_x = range(len(data_y))
+        self.parameter_plot.clear()
+        self.parameter_plot.setBackground('w')
+        self.parameter_plot.plot(data_x, data_y)
+        self.parameter_plot.showGrid(x=True, y=True)
 
-    def plot(self, hour, temperature):
-        self.graphWidget.plot(hour, temperature)
+    def change_value_1(self, value):
+        self.time_index = int(value)
+        self.lcdNumber.display(int(value))
+
+    def change_value(self,value):
+        self.plot()
+        self.calc_table()
+
+    def plot(self ):
+        data_dynamic = self.data_[0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
+            0]  # следующий индекс - номер маркера
+        t= self.time_index
+        x = data_dynamic[:, 0, t]
+        y = data_dynamic[:, 2, t]
+        self.sagital_widget.clear()
+        self.sagital_widget.setBackground('w')
+        self.sagital_widget.plot(x,y,pen = None, symbol='o', symbolSize=10)
+        self.sagital_widget.showGrid(x=True, y=True)
+        x = data_dynamic[:, 1, t]
+        y = data_dynamic[:, 2, t]
+        self.front_widget.clear()
+        self.front_widget.setBackground('w')
+        self.front_widget.plot(x, y, pen=None, symbol='o', symbolSize=10)
+        self.front_widget.showGrid(x=True, y=True)
 
     def timer(self, arg):
         self.time_index = 0
@@ -133,33 +168,30 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def time_stop(self):
         t = threading.Thread(target=self.timer, args=(False))
 
-    def change_value(self, value):
-        self.time_index = value
 
     def changeValue(self, value):  # Toolbar
         self.time_index = value
-        self.lineEdit.setText(str(value))
 
-    def download(self):
-        self.static_data = scipy.io.loadmat('walk 5km0001.mat')
-        self.move_data = scipy.io.loadmat('statica0001.mat')
+    def download_1(self):
+        self.data_ = scipy.io.loadmat('walk 5km0001.mat')['walk_5km0001']
+        self.horizontalSlider.setMaximum(2999)
+
+    def download_2(self):
+        self.data_ = scipy.io.loadmat('statica0001.mat')['statica0001']
+        self.horizontalSlider.setMaximum(1726)
 
     def calc(self):
-        walk_5km0001 = self.static_data
-        statica0001 = self.move_data
-        data_dynamic = walk_5km0001['walk_5km0001'][0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
-            0]  # следующий индекс - номер маркера
-        data_static = statica0001['statica0001'][0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
+        data_dynamic = self.data_[0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
             0]  # следующий индекс - номер маркера
         param_1 = []
         vect_1 = data_dynamic[5][0:3] - data_dynamic[10][0:3]
         vect = np.array([1, 0, 0])
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_1.append(np.dot(vect, vect_1[:, i]))
         vect_1 = data_dynamic[5][0:3] - data_dynamic[10][0:3]
         vect = np.array([0, 1, 0])
         param_2 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_2.append(np.dot(vect, vect_1[:, i]))
         v2 = (data_dynamic[12, 0:3, :] + data_dynamic[11, 0:3, :] + data_dynamic[14, 0:3, :] + data_dynamic[13, 0:3,
                                                                                                :]) / 4
@@ -167,41 +199,41 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         vect = [1, 0, 0]
         vect_1 = data_dynamic[5, 0:3] - v2
         param_3 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_3.append(np.dot(vect, vect_1[:, i]))
 
         # фронтальный наклон грудной клетки относительно таза
         vect = [0, 1, 0]
         vect_1 = data_dynamic[5, 0:3] - v2
         param_4 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_4.append(np.dot(vect, vect_1[:, i]))
 
         # торсия груди относительно пола
         vect = [1, 0, 0]
         vect_1 = data_dynamic[15, 0:3] - data_dynamic[10, 0:3]
         param_5 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_5.append(np.dot(vect, vect_1[:, i]))
 
         # торсия груди относительно таза
         vect = [1, 0, 0]
         vect_1 = data_dynamic[15, 0:3] - v2
         param_6 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_6.append(np.dot(vect, vect_1[:, i]))
         # наклон головы относительно пола
         vect = [1, 0, 0]
         vect_1 = data_dynamic[2, 0:3] - data_dynamic[10, 0:3]
         param_7 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_7.append(np.dot(vect, vect_1[:, i]))
 
         # наклон головы  относительно тела
         vect = [1, 0, 0]
         vect_1 = data_dynamic[2, 0:3] - v2
         param_8 = []
-        for i in range(3000):
+        for i in range(data_dynamic.shape[2]):
             param_8.append(np.dot(vect, vect_1[:, i]))
 
         # calculation Dyn-Cobb angle
@@ -330,17 +362,21 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             len_l2.append(sqrt(l2[0][i] ** 2 + l2[1][i] ** 2))
             APA.append(acos(np.dot(l1[:, i], l2[:, i]) / (len_l1[i] * len_l2[i])))
         data_1 = pd.DataFrame([param_1, param_2, param_3, param_4, param_5, param_6, param_7, param_8],
-                              index=['Сагиттальный наклон грудной клетки относительно пола ',
-                                     'фронтальный наклон грудной клетки относительно пола',
-                                     'Сагиттальный наклон грудной клетки относительно таза',
-                                     'фронтальный наклон грудной клетки относительно таза',
-                                     'торсия груди относительно пола', 'торсия груди относительно таза',
-                                     'наклон головы относительно пола ', 'наклон головы  относительно тела'])
+                              index=self.names_news)
         data_2 = pd.DataFrame([APA, Dyn_Cobb, Dyn_LL, Dyn_PT, Dyn_SL, Dyn_SL_rotation, Dyn_TK],
-                              index=['APA', 'Dyn_Cobb', 'Dyn_LL', 'Dyn_PT', 'Dyn_SL', 'Dyn_SL_rotation', 'Dyn_TK'])
-        data = pd.concat([data_1, data_2]).T
-        model_1 = PandasModel(data_1)
-        model_2 = PandasModel(data_2)
+                              index=self.names_old)
+        self.old_data=data_1
+        self.new_data = data_2
+    def calc_table(self):
+        self.calc()
+        data_1,data_2 = self.old_data,self.new_data
+        self.show_table(data_1,data_2)
+
+    def show_table(self,data_1,data_2):
+        print(data_2[self.time_index])
+        print(data_1[self.time_index][0:1])
+        model_1 = PandasModel(data_1[self.time_index].to_frame(name="time "+str(self.time_index)))
+        model_2 = PandasModel(data_2[self.time_index].to_frame(name="time "+str(self.time_index)))
         self.tableView.setModel(model_1)
         self.tableView_2.setModel(model_2)
         # переделать вывод использовать тул бар для вывода отрисовать графики
