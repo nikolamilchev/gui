@@ -1,34 +1,23 @@
 import os
 from math import sqrt, acos
 
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-import pyqtgraph as pg
-import sys
-import design
+
 import scipy.io
-import threading
+
 import numpy as np
 import pandas as pd
-from pyqtgraph import PlotWidget, plot
-from PyQt5 import QtWidgets, uic
-from pyqtgraph import PlotWidget, plot
 
-import pyqtgraph as pg
-import sys  # We need sys so that we can pass argv to QApplication
-import os
-import time
+from PyQt5 import  uic
+
 
 import sys
 import matplotlib
 
 matplotlib.use('Qt5Agg')
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import  QtWidgets
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
-from matplotlib.figure import Figure
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QGridLayout, QWidget, QTableWidget, QTableWidgetItem
 
 from PyQt5 import QtCore
 
@@ -148,13 +137,13 @@ class ExampleApp(QtWidgets.QMainWindow):
         y = data_dynamic[:, 2, t]
         self.sagital_widget.clear()
         self.sagital_widget.setBackground('w')
-        self.sagital_widget.plot(x, y, pen=None, symbol='o', symbolSize=10)
+        self.sagital_widget.plot(x, y, pen=None, symbol='o', symbolSize=7)
         self.sagital_widget.showGrid(x=True, y=True)
         x = data_dynamic[:, 1, t]
         y = data_dynamic[:, 2, t]
         self.front_widget.clear()
         self.front_widget.setBackground('w')
-        self.front_widget.plot(x, y, pen=None, symbol='o', symbolSize=10)
+        self.front_widget.plot(x, y, pen=None, symbol='o', symbolSize=7)
         self.front_widget.showGrid(x=True, y=True)
 
     def changeValue(self, value):  # Toolbar
@@ -163,10 +152,13 @@ class ExampleApp(QtWidgets.QMainWindow):
     def download_2(self):
         self.data_ = scipy.io.loadmat('data/walk 5km0001.mat')['walk_5km0001']
         self.horizontalSlider.setMaximum(2999)
+        self.calc_table()
+
 
     def download_1(self):
         self.data_ = scipy.io.loadmat('data/statica0001.mat')['statica0001']
         self.horizontalSlider.setMaximum(1726)
+        self.calc_table()
 
     def calc(self):
         data_dynamic = self.data_[0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
@@ -369,12 +361,11 @@ class ExampleApp(QtWidgets.QMainWindow):
 
     def calc_table(self):
         self.calc()
-        data_1, data_2 = self.old_data, self.new_data
-        self.show_table(data_1, data_2)
+        self.show_table()
 
-    def show_table(self, data_1, data_2):
-        model_1 = PandasModel(data_1[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
-        model_2 = PandasModel(data_2[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
+    def show_table(self):
+        model_1 = PandasModel(self.old_data[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
+        model_2 = PandasModel(self.new_data[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
         self.tableView.setModel(model_1)
         self.tableView_2.setModel(model_2)
         # переделать вывод использовать тул бар для вывода отрисовать графики
