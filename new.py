@@ -99,7 +99,7 @@ class ExampleApp(QtWidgets.QMainWindow):
         # и т.д. в файле design.py
         super().__init__()
         self.time_index = 0
-        uic.loadUi('design.ui', self)
+        uic.loadUi('data/design.ui', self)
         self.names_news = ['Сагиттальный наклон грудной клетки относительно пола',
                            'фронтальный наклон грудной клетки относительно пола',
                            'Сагиттальный наклон грудной клетки относительно таза',
