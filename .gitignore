@@ -22,3 +22,4 @@ dist/data/walk 5km0001.mat
 dist/gui.exe
 dist/gui.rar
 dist/gui_.rar
+*.png
