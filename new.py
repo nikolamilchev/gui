@@ -5,7 +5,7 @@ import pandas as pd
 from PyQt5 import  uic
 import sys
 import matplotlib
-
+import pyqtgraph
 matplotlib.use('Qt5Agg')
 
 from PyQt5 import  QtWidgets
@@ -105,7 +105,11 @@ class ExampleApp(QtWidgets.QMainWindow):
         # Устанавливаем заголовки таблицы
         self.plot()
 
-    def mini_plots(self, value):
+    def mini_plots(self,value):
+        self.mini_plots_1(value)
+        self.mini_plots_2(value)
+
+    def mini_plots_1(self, value):
         df = pd.concat([self.old_data, self.new_data])
         data_y = df.loc[value]
         data_x = range(len(data_y))
@@ -113,6 +117,15 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.parameter_plot.setBackground('w')
         self.parameter_plot.plot(data_x, data_y)
         self.parameter_plot.showGrid(x=True, y=True)
+
+    def mini_plots_2(self, value):
+        df = pd.concat([self.old_data, self.new_data])
+        data_y = df.loc[value]
+        data_x = range(len(data_y))
+        self.mean_plot.clear()
+        self.mean_plot.setBackground('w')
+        self.mean_plot.plot(data_x, data_y)
+        self.mean_plot.showGrid(x=True, y=True)
 
     def change_value_1(self, value):
         self.time_index = int(value)
