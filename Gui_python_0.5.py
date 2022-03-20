@@ -113,6 +113,7 @@ class ExampleApp(QtWidgets.QMainWindow):
     def save_to_png(self):
         fig, ax = plt.subplots(nrows=1, ncols=1)  # create figure & 1 axis
         ax.plot(self.data_x_min_1, self.data_y_min_1)
+        ax.set_title(self.comboBox.currentText())
         fig.savefig('data/'+self.name_mini_plot+'.png')  # save the figure to file
         plt.close(fig)
     def mini_plots(self, value):
