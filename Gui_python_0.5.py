@@ -206,15 +206,21 @@ class ExampleApp(QtWidgets.QMainWindow):
                               index=self.names_old)
         self.old_data = data_1
         self.new_data = data_2
+    def LHS(self, data_dynamic):
+        # здесь будет происходит деление
+        print(data_dynamic[13])
+        RHS = []
+
+        return RHS
 
     def RHS(self, data_dynamic):
         # здесь будет происходит деление
-        param_1 = []
-        vect_1 = data_dynamic[5][0:3] - data_dynamic[10][0:3]
-        vect = np.array([1, 0, 0])
-        for i in range(data_dynamic.shape[2]):
-            param_1.append(np.dot(vect, vect_1[:, i]))
-        return param_1
+        print(data_dynamic[14])
+        LHS = []
+        for i in range(1,data_dynamic[14]):
+            pass
+
+        return LHS
 
     def param_1(self, data_dynamic):
         # Сагиттальный наклон грудной клетки относительно пола
