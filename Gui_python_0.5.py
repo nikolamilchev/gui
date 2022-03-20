@@ -114,13 +114,16 @@ class ExampleApp(QtWidgets.QMainWindow):
         fig, ax = plt.subplots(nrows=1, ncols=1)  # create figure & 1 axis
         ax.plot(self.data_x_min_1, self.data_y_min_1)
         ax.set_title(self.comboBox.currentText())
+        ax.set_xlabel('Цикл шага (%)')
+        ax.set_ylabel('угол')
         fig.savefig('data/'+self.name_mini_plot+'.png')  # save the figure to file
         plt.close(fig)
     def mini_plots(self, value):
         self.name_mini_plot = value
         df = pd.concat([self.old_data, self.new_data])
         data_y = df.loc[self.name_mini_plot]
-        data_x = range(len(data_y))
+        data_x = [i for i in range(len(data_y))]
+        data_x = [i/max(data_x)*100 for i in data_x]
         self.data_y_min_1 = data_y
         self.data_x_min_1 = data_x
         self.data_y_min_2 = data_y

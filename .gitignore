@@ -23,3 +23,5 @@ dist/gui.exe
 dist/gui.rar
 dist/gui_.rar
 *.png
+/build/
+dist/Gui_python_0.5.exe
