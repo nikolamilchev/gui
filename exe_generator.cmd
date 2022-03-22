@@ -1,2 +1,2 @@
-cd C:\Users\marin\Desktop\politech\vkr\gui
+echo off
 py "pyinstaller_run.py"

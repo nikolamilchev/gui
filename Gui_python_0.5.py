@@ -3,14 +3,14 @@ import scipy.io
 import numpy as np
 import pandas as pd
 from PyQt5 import uic
-import sys
+
 import matplotlib
 import matplotlib.pyplot as plt
 import pyqtgraph
 import sys
 matplotlib.use('Qt5Agg')
 import os
-
+import pyqtgraph.graphicsItems.ViewBox.axisCtrlTemplate_pyqt5
 from PyQt5 import QtWidgets
 
 from PyQt5 import QtCore
