@@ -7,8 +7,9 @@ import sys
 import matplotlib
 import matplotlib.pyplot as plt
 import pyqtgraph
-
+import sys
 matplotlib.use('Qt5Agg')
+import os
 
 from PyQt5 import QtWidgets
 
@@ -84,6 +85,9 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.data_y_min_2 = None
         self.data_x_min_2 = None
         self.name_mini_plot = None
+        if os.path.isfile('data/design.ui') ==False:
+            sys.exit()
+
         uic.loadUi('data/design.ui', self)
         self.names_news = ['Сагиттальный наклон грудной клетки относительно пола',
                            'фронтальный наклон грудной клетки относительно пола',
@@ -112,11 +116,13 @@ class ExampleApp(QtWidgets.QMainWindow):
 
     def save_to_png(self):
         fig, ax = plt.subplots(nrows=1, ncols=1)  # create figure & 1 axis
+        if os.path.exists('./plot/') ==False:
+            os.makedirs('plot')
         ax.plot(self.data_x_min_1, self.data_y_min_1)
         ax.set_title(self.comboBox.currentText())
         ax.set_xlabel('Цикл шага (%)')
         ax.set_ylabel('угол')
-        fig.savefig('data/'+self.name_mini_plot+'.png')  # save the figure to file
+        fig.savefig('plot/'+self.name_mini_plot+'.png')  # save the figure to file
         plt.close(fig)
     def mini_plots(self, value):
         self.name_mini_plot = value
