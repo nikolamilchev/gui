@@ -102,7 +102,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
                            'фронтальный наклон грудной клетки относительно таза',
                            'торсия груди относительно пола', 'торсия груди относительно таза',
                            'наклон головы относительно пола', 'наклон головы  относительно тела']
-        self.names_old = ['APA', 'Dyn_Cobb', 'Dyn_LL', 'Dyn_PT', 'Dyn_SL', 'Dyn_SL_rotation', 'Dyn_TK']
+        self.names_old = ['acromion pelvis angle', 'Cobb angle', 'lumbar lordosis', 'pelvic tilt', 'shoulder line inclination', 'shoulder line rotation', 'thoracic kyphosis']
 
         self.action.triggered.connect(self.download_1)
         self.action_2.triggered.connect(self.download_2)
@@ -122,9 +122,9 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
 
     def download(self,state):
         if state == Qt.Checked:
-            self.download_2()
-        else:
             self.download_1()
+        else:
+            self.download_2()
 
     def download_file(self):
         T = True
@@ -159,13 +159,18 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
 
     def save_to_png(self):
         fig, ax = plt.subplots(nrows=1, ncols=1)  # create figure & 1 axis
-        if os.path.exists('./plot/') ==False:
-            os.makedirs('plot')
+        if os.path.exists('./plot/static') ==False:
+            os.makedirs('plot/static')
+        if os.path.exists('./plot/dynamic') ==False:
+            os.makedirs('plot/dynamic')
         ax.plot(self.data_x_min_1, self.data_y_min_1)
         ax.set_title(self.comboBox.currentText())
         ax.set_xlabel('Цикл шага (%)')
-        ax.set_ylabel('угол')
-        fig.savefig('plot/'+self.name_mini_plot+'.png')  # save the figure to file
+        ax.set_ylabel('градус угла')
+        if self.checkBox.isChecked():
+            fig.savefig('plot/static/'+self.name_mini_plot+'.png')  # save the figure to file
+        else:
+            fig.savefig('plot/dynamic/'+self.name_mini_plot+'.png')  # save the figure to file
         plt.close(fig)
     def mini_plots(self, value):
         self.name_mini_plot = value
