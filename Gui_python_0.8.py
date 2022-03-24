@@ -230,12 +230,16 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
             self.data_ = self.data_1
             self.horizontalSlider.setMaximum(2999)
             self.calc_table()
+            self.mini_plots(self.comboBox.currentText())
+            self.plot()
 
     def download_1(self):
         if self.data_2 is not None:
             self.data_ = self.data_2
             self.horizontalSlider.setMaximum(1726)
             self.calc_table()
+            self.mini_plots(self.comboBox.currentText())
+            self.plot()
 
     def calc(self):
         data_dynamic = self.data_[0]['Trajectories'][0][0]['Labeled'][0][0]['Data'][
