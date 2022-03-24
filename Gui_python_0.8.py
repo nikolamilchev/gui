@@ -19,6 +19,7 @@ from PyQt5 import QtWidgets
 
 from PyQt5 import QtCore
 
+import design_08 as design
 
 class PandasModel(QtCore.QAbstractTableModel):
     def __init__(self, df=pd.DataFrame(), parent=None):
@@ -77,12 +78,14 @@ class PandasModel(QtCore.QAbstractTableModel):
         self._df.reset_index(inplace=True, drop=True)
         self.layoutChanged.emit()
 
+from pyqtgraph import PlotWidget
 
-class ExampleApp(QtWidgets.QMainWindow):
+class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
     def __init__(self):
         # Это здесь нужно для доступа к переменным, методам
         # и т.д. в файле design.py
         super().__init__()
+        self.setupUi(self)
         self.time_index = 0
         self.data_y_min_1 = None
         self.data_x_min_1 = None
@@ -91,10 +94,7 @@ class ExampleApp(QtWidgets.QMainWindow):
         self.name_mini_plot = None
         self.data_1 = None
         self.data_2 = None
-        if os.path.isfile('data/design_07_.ui') ==False:
-            sys.exit()
 
-        uic.loadUi('data/design_07_.ui', self)
 
         self.names_news = ['Сагиттальный наклон грудной клетки относительно пола',
                            'фронтальный наклон грудной клетки относительно пола',
@@ -147,7 +147,8 @@ class ExampleApp(QtWidgets.QMainWindow):
             else:
                 T = False
         #Включение графиков
-        self.showFullScreen()
+        self.showMaximized()
+        self.showNormal()
         self.data_ = self.data_1
         self.change_value(None)
         self.mini_plots(value='Сагиттальный наклон грудной клетки относительно пола')
