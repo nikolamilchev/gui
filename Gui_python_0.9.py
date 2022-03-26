@@ -311,7 +311,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
     def param_9(self, data_dynamic):
         # Сагиттальный наклон грудной клетки относительно пола
         param_1 = []
-        vect_1 = data_dynamic[5][0:3] - data_dynamic[10][0:3]
+        vect_1 = data_dynamic[2][0:3] - data_dynamic[10][0:3]
         vect = np.array([1, 0, 0])
         for i in range(data_dynamic.shape[2]):
             param_1.append(np.dot(vect, vect_1[:, i]))
@@ -319,7 +319,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
 
     def param_10(self, data_dynamic):
         # фронтальный наклон грудной клетки относительно пола
-        vect_1 = data_dynamic[5][0:3] - data_dynamic[10][0:3]
+        vect_1 = data_dynamic[2][0:3] - data_dynamic[10][0:3]
         vect = np.array([0, 1, 0])
         param_2 = []
         for i in range(data_dynamic.shape[2]):
@@ -329,7 +329,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
     def param_11(self, data_dynamic,v2):
         # Сагиттальный наклон грудной клетки относительно таза
         vect = [1, 0, 0]
-        vect_1 = data_dynamic[5, 0:3] - v2
+        vect_1 = data_dynamic[2, 0:3] - v2
         param_3 = []
         for i in range(data_dynamic.shape[2]):
             param_3.append(np.dot(vect, vect_1[:, i]))
@@ -337,7 +337,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
     def param_12(self,data_dynamic,v2):
         # фронтальный наклон грудной клетки относительно таза
         vect = [0, 1, 0]
-        vect_1 = data_dynamic[5, 0:3] - v2
+        vect_1 = data_dynamic[2, 0:3] - v2
         param_4 = []
         for i in range(data_dynamic.shape[2]):
             param_4.append(np.dot(vect, vect_1[:, i]))
