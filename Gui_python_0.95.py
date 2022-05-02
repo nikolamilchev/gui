@@ -445,11 +445,13 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
     def Dyn_PT(self):
         # calculation  Dyn-PT two ways
         # calculation Dyn-PT : angle between L.PSIS-L.ASIS and normal vector к ZY in plane ZX
+
         l1 = np.reshape(np.array(
             (self.take_data_by_name('L.PSIS')[0] - self.take_data_by_name('L.ASIS')[0], self.take_data_by_name(' L.PSIS')[2] - self.take_data_by_name('L.ASIS')[2])),(2,3000)) # vector L.PSIS-L.ASIS
         l2 = []
         for i in range(len(l1[0])):
             l2.append(np.array([0, -1]))  # normal vector
+
         len_l1 = []
         len_l2 = []
 
@@ -476,7 +478,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
         return Dyn_PT_2
 
     def Dyn_SL_rotation(self):
-
+        #shoulder line rotation
         # calculation Dyn_SL_rotation : angle between R.ACR-L.ACR and normal vector of ZX in plane XY\
 
         l1 = np.reshape(np.array(
@@ -491,11 +493,10 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
         len_l2 = []
 
         Dyn_SL_rotation = []
-        for i in range(len(l2[0])):
-            len_l1.append(sqrt(l1[i][0] ** 2 + l1[i][1] ** 2))
+        for i in range(len(l1[0])):
+            len_l1.append(sqrt(l1[0][i] ** 2 + l1[1][i] ** 2))
             len_l2.append(sqrt(l2[i][0] ** 2 + l2[i][1] ** 2))
             Dyn_SL_rotation.append(acos(np.dot(l1[:, i], l2[i]) / (len_l1[i] * len_l2[i])))
-
         return Dyn_SL_rotation
 
     def pelvic_rotation(self):
@@ -503,6 +504,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
         l1 = np.reshape(np.array(
             (self.take_data_by_name('R.ASIS')[0] - self.take_data_by_name('L.ASIS')[0],
              self.take_data_by_name('R.ASIS')[1] - self.take_data_by_name('L.ASIS')[1])),(2,3000))  # vector R.ASIS-L.ASIS
+
 
         l2 = []
         for i in range(len(l1[0])):
@@ -513,6 +515,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
 
         pelvic_rotation = []
         for i in range(len(l1[0])):
+
             len_l1.append(sqrt(l1[0][i] ** 2 + l1[1][i] ** 2))
             len_l2.append(sqrt(l2[i][0] ** 2 + l2[i][1] ** 2))
             pelvic_rotation.append(acos(np.dot(l1[:, i], l2[i]) / (len_l1[i] * len_l2[i])))
