@@ -1,24 +1,15 @@
-from math import sqrt, acos
-import scipy.io
-import numpy as np
-import pandas as pd
-from PyQt5 import uic
+import sys
+from functools import reduce
 
 import matplotlib
 import matplotlib.pyplot as plt
-import pyqtgraph
-import sys
-from functools import reduce
-from sys import argv
-import scipy
-import scipy.signal
-import matplotlib.pyplot as plt
 import pandas as pd
-from PyQt5.QtCore import QFile, Qt
+import scipy
+import scipy.io
+import scipy.signal
 from PyQt5.QtWidgets import QFileDialog
 
 matplotlib.use('Qt5Agg')
-import os
 
 from PyQt5 import QtWidgets
 
@@ -82,10 +73,9 @@ class PandasModel(QtCore.QAbstractTableModel):
         self._df.sort_values(colname, ascending=order == QtCore.Qt.AscendingOrder, inplace=True)
         self._df.reset_index(inplace=True, drop=True)
         self.layoutChanged.emit()
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
 
-def step_separator(marker, i_=2,HS = None, TO = None):
+
+def step_separator(marker, i_=2):
 
     for coordinate in marker:
         if 'Y' in coordinate:
@@ -94,7 +84,10 @@ def step_separator(marker, i_=2,HS = None, TO = None):
             marker_z = coordinate
         if 'X' in coordinate:
             marker_x = coordinate
-
+    # Проверка ориентации
+    if marker[marker_x][0]< marker[marker_x][len(marker[marker_x])-1]:
+        marker[marker_y] = marker[marker_y]*(-1)
+        marker[marker_z] = marker[marker_z]*(-1)
     # фильтрация частот
     #  в статье 2 HZ
     acs_AP = marker[marker_y].diff().diff().fillna(value=0).values
@@ -170,7 +163,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
             j += 1
         k = 0
         Events = []
-        while lst_[k][0] == 'EVENT' or len(Events) == 0:
+        while (lst_[k][0] == 'EVENT' or len(Events) == 0) and k<len(lst_)-1:
             if lst_[k][0] == 'EVENT':
                 Events.append(lst_[k])
             k += 1
@@ -183,7 +176,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
         work_col = [i for i in self.data.columns if i.find('Type') == -1]
         self.data = self.data[work_col].astype(float)
         times = self.data['Time'].values
-        point_HS, point_TO = step_separator(self.data[['R_SAE Y', 'R_SAE Z']])
+        point_HS, point_TO = step_separator(self.data[['R_SAE X','R_SAE Y', 'R_SAE Z']])
         point_HS = [times[i] for i in point_HS]
         point_TO = [times[i] for i in point_TO]
         ## ГРАФИКИ
