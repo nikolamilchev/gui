@@ -36,7 +36,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -234,9 +234,6 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="PlotWidget" name="parameter_plot_2" native="true"/>
-        </item>
-        <item>
          <widget class="PlotWidget" name="mean_plot_2" native="true"/>
         </item>
        </layout>
@@ -258,24 +255,32 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>300</y>
-         <width>271</width>
-         <height>16</height>
+         <y>290</y>
+         <width>311</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
         <string>Максимальные, минимальные и средние значения</string>
        </property>
       </widget>
-      <widget class="QTableView" name="tableView_3">
+      <widget class="QWidget" name="verticalLayoutWidget_4">
        <property name="geometry">
         <rect>
-         <x>290</x>
-         <y>290</y>
-         <width>256</width>
-         <height>281</height>
+         <x>269</x>
+         <y>268</y>
+         <width>641</width>
+         <height>341</height>
         </rect>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QComboBox" name="comboBox_2"/>
+        </item>
+        <item>
+         <widget class="QTableView" name="tableView_3"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>
@@ -309,9 +314,6 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="PlotWidget" name="parameter_plot_3" native="true"/>
-        </item>
-        <item>
          <widget class="PlotWidget" name="mean_plot_3" native="true"/>
         </item>
        </layout>
@@ -342,16 +344,24 @@
         <string>Максимальные, минимальные и средние значения</string>
        </property>
       </widget>
-      <widget class="QTableView" name="tableView_4">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>290</y>
-         <width>256</width>
-         <height>281</height>
-        </rect>
-       </property>
-      </widget>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>270</y>
+        <width>641</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QComboBox" name="comboBox_3"/>
+       </item>
+       <item>
+        <widget class="QTableView" name="tableView_4"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </widget>

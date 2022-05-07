@@ -91,7 +91,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
         self.data_y_min_2 = None
         self.data_x_min_2 = None
         self.name_mini_plot = None
-
+        self.point_HS, self.point_TO = None, None
 
         self.dimension = {'Вариант 1. сагиттальная плоскость': 'смещение, мм',
                            'Вариант 1. фронтальная плоскость': 'смещение, мм',
@@ -224,7 +224,7 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
     def changeValue(self, value):  # Toolbar
         self.time_index = value
 
-    def take_data_by_name(self,name):
+    def take_data_by_name(self,name):# поменять выделение текста
         work_col = [i for i in self.data.columns if  i.split()[0] in name]
         return np.array([self.data[work_col].take([0], axis=1),self.data[work_col].take([1], axis=1),self.data[work_col].take([2], axis=1)])
 
@@ -235,14 +235,16 @@ class ExampleApp(QtWidgets.QMainWindow,design.Ui_MainWindow):
         param_2 = self.param_2()
         param_3 = self.param_3()
         param_4 = self.param_4()
-
+        x  = [i for i in self.data.columns if  i.split()[0] in 'R_SAE']
+        print(x)
+        self.point_HS, self.point_TO = self.step_separator(self.data[x])
 
         data_1 = pd.DataFrame([param_1, param_2, param_3, param_4],
                               index=self.names_news)
 
         self.data_calc = data_1
 
-    def step_separator(marker, i_=2):
+    def step_separator(self,marker, i_=2):
 
         for coordinate in marker:
             if 'Y' in coordinate:
