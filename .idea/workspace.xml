@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55acc723-b5ed-4b49-b218-75c12e03d180" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Gui_python_1_1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui_python_1_0.py" beforeDir="false" afterPath="$PROJECT_DIR$/Gui_python_1_0.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/design_1_0_.ui" beforeDir="false" afterPath="$PROJECT_DIR$/data/design_1_0_.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/design_1_0_.py" beforeDir="false" afterPath="$PROJECT_DIR$/design_1_0_.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +18,12 @@
   <component name="ProjectId" id="28sRtb4f9xluGnzenNdnt6tOYJh" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Gui_python_1_1.py" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\marin\Desktop\politech\vkr\gui" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -32,7 +37,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Gui_python_1_1">
     <configuration name="Gui_python_1_0" type="PythonConfigurationType" factoryName="Python" folderName="test" nameIsGenerated="true">
       <module name="gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -55,6 +60,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Gui_python_1_1" type="PythonConfigurationType" factoryName="Python" folderName="test" nameIsGenerated="true">
+      <module name="gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Program Files\Python39\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Gui_python_1_1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Gui_python_1_0" />
+      <item itemvalue="Python.Gui_python_1_1" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -67,8 +98,16 @@
       <option name="presentableId" value="Default" />
       <updated>1652003261272</updated>
       <workItem from="1652003265193" duration="234000" />
-      <workItem from="1652003526367" duration="41028000" />
+      <workItem from="1652003526367" duration="43189000" />
     </task>
+    <task id="LOCAL-00001" summary="+">
+      <created>1652143982365</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1652143982365</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -87,7 +126,12 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="+" />
+    <option name="LAST_COMMIT_MESSAGE" value="+" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/gui$Gui_python_1_0.coverage" NAME="Gui_python_1_0 Coverage Results" MODIFIED="1652142461925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gui$Gui_python_1_0.coverage" NAME="Gui_python_1_0 Coverage Results" MODIFIED="1652181257175" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gui$Gui_python_1_1.coverage" NAME="Gui_python_1_1 Coverage Results" MODIFIED="1652181632375" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

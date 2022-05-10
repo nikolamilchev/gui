@@ -179,7 +179,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         plt.close(fig)
         # Сохранение значений таблицы
         if self.checkBox.isChecked():
-            self.data_calc.to_csv('plot/static/data.csv', sep=';',encoding='mbcs') # save the figure to file
+            self.data_calc.to_csv('plot/static/data.csv', sep=';',encoding='mbcs')  # save the figure to file
         else:
             self.data_calc.to_csv('plot/dynamic/data.csv', sep=';',encoding='mbcs')  # save the figure to file
             # график шагов
@@ -204,7 +204,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                                        title='изменение саггитального баланса при делении на фазы 1 вариант',
                                        xlabel='Цикл шага (%)', ylabel='смещение, мм')
                 fig = plot.get_figure()
-                fig.savefig('plot/dynamic/изменение саггитального баланса при делении на фазы 1 вариант.png')
+                fig.saveGui_python_1_0.pyfig('plot/dynamic/изменение саггитального баланса при делении на фазы 1 вариант.png')
                 plot = self.data_del_2.plot(figsize=(20, 20), color=color_map,
                                             title='изменение фронтального баланса при делении на фазы 1 вариант',
                                             xlabel='Цикл шага (%)', ylabel='смещение, мм')
@@ -463,19 +463,19 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         if RHS == None or RTO == None:
             for i in range(self.data.shape[0]):
                 param.append(
-                    float(self.take_data_by_name('S1')[0, i] - self.take_data_by_name('T3')[0, i]))
+                    float(self.take_data_by_name('LV5')[0, i] - self.take_data_by_name('TV2')[0, i]))
         else:
             for j in range(len(RHS) - 1):
                 t = []
 
                 for i in range(RHS[j], RHS[j + 1]):
                     t.append(
-                        float(self.take_data_by_name('S1')[0, i] - self.take_data_by_name('T3')[0, i]))
+                        float(self.take_data_by_name('LV5')[0, i] - self.take_data_by_name('TV2')[0, i]))
                 param.append(t)
                 t = []
                 for i in range(RHS[j], RTO[j]):
                     t.append(
-                        float(self.take_data_by_name('S1')[0, i] - self.take_data_by_name('T3')[0, i]))
+                        float(self.take_data_by_name('LV5')[0, i] - self.take_data_by_name('TV2')[0, i]))
                 param.append(t)
         return param
 
@@ -485,19 +485,19 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         if RHS == None or RTO == None:
             for i in range(self.data.shape[0]):
                 param.append(
-                    float(self.take_data_by_name('S1')[1, i] - self.take_data_by_name('T3')[1, i]))
+                    float(self.take_data_by_name('LV5')[1, i] - self.take_data_by_name('TV2')[1, i]))
         else:
             for j in range(len(RHS) - 1):
                 t = []
 
                 for i in range(RHS[j], RHS[j + 1]):
                     t.append(
-                        float(self.take_data_by_name('S1')[1, i] - self.take_data_by_name('T3')[1, i]))
+                        float(self.take_data_by_name('LV5')[1, i] - self.take_data_by_name('TV2')[1, i]))
                 param.append(t)
                 t = []
                 for i in range(RHS[j], RTO[j]):
                     t.append(
-                        float(self.take_data_by_name('S1')[1, i] - self.take_data_by_name('T3')[1, i]))
+                        float(self.take_data_by_name('LV5')[1, i] - self.take_data_by_name('TV2')[1, i]))
                 param.append(t)
         return param
 
@@ -506,19 +506,19 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         param = []
         if RHS == None or RTO == None:
             for i in range(self.data.shape[0]):
-                param.append(float(self.take_data_by_name('T3')[0, i] - self.v2[0, i]))
+                param.append(float(self.take_data_by_name('TV2')[0, i] - self.v2[0, i]))
         else:
             for j in range(len(RHS) - 1):
                 t = []
 
                 for i in range(RHS[j], RHS[j + 1]):
                     t.append(
-                        float(self.take_data_by_name('T3')[0, i] - self.v2[0, i]))
+                        float(self.take_data_by_name('TV2')[0, i] - self.v2[0, i]))
                 param.append(t)
                 t = []
                 for i in range(RHS[j], RTO[j]):
                     t.append(
-                        float(self.take_data_by_name('T3')[0, i] - self.v2[0, i]))
+                        float(self.take_data_by_name('TV2')[0, i] - self.v2[0, i]))
                 param.append(t)
         return param
 
@@ -527,19 +527,19 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         param = []
         if RHS == None or RTO == None:
             for i in range(self.data.shape[0]):
-                param.append(float(self.take_data_by_name('T3')[1, i] - self.v2[1, i]))
+                param.append(float(self.take_data_by_name('TV2')[1, i] - self.v2[1, i]))
         else:
             for j in range(len(RHS) - 1):
                 t = []
 
                 for i in range(RHS[j], RHS[j + 1]):
                     t.append(
-                        float(self.take_data_by_name('T3')[1, i] - self.v2[1, i]))
+                        float(self.take_data_by_name('TV2')[1, i] - self.v2[1, i]))
                 param.append(t)
                 t = []
                 for i in range(RHS[j], RTO[j]):
                     t.append(
-                        float(self.take_data_by_name('T3')[1, i] - self.v2[1, i]))
+                        float(self.take_data_by_name('TV2')[1, i] - self.v2[1, i]))
                 param.append(t)
         return param
 
