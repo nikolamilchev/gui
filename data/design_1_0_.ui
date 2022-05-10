@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1260</width>
-    <height>864</height>
+    <width>1254</width>
+    <height>865</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,12 +31,12 @@
      <rect>
       <x>10</x>
       <y>50</y>
-      <width>1251</width>
-      <height>791</height>
+      <width>1241</width>
+      <height>751</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -47,8 +47,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1251</width>
-        <height>751</height>
+        <width>1211</width>
+        <height>721</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -57,19 +57,6 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="geometry">
-        <rect>
-         <x>1130</x>
-         <y>730</y>
-         <width>81</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>сохранить</string>
-       </property>
-      </widget>
       <widget class="QTableView" name="tableView">
        <property name="geometry">
         <rect>
@@ -111,9 +98,9 @@
       <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>970</x>
+         <x>960</x>
          <y>289</y>
-         <width>261</width>
+         <width>241</width>
          <height>111</height>
         </rect>
        </property>
@@ -226,9 +213,9 @@
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>220</x>
+         <x>270</x>
          <y>20</y>
-         <width>691</width>
+         <width>941</width>
          <height>221</height>
         </rect>
        </property>
@@ -241,7 +228,7 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>50</x>
          <y>20</y>
          <width>211</width>
          <height>21</height>
@@ -269,8 +256,8 @@
         <rect>
          <x>269</x>
          <y>268</y>
-         <width>641</width>
-         <height>341</height>
+         <width>941</width>
+         <height>361</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -306,10 +293,10 @@
       <widget class="QWidget" name="verticalLayoutWidget_3">
        <property name="geometry">
         <rect>
-         <x>220</x>
+         <x>270</x>
          <y>20</y>
-         <width>691</width>
-         <height>221</height>
+         <width>931</width>
+         <height>241</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -321,7 +308,7 @@
       <widget class="QLabel" name="label_6">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>50</x>
          <y>20</y>
          <width>211</width>
          <height>21</height>
@@ -349,9 +336,9 @@
       <property name="geometry">
        <rect>
         <x>270</x>
-        <y>270</y>
-        <width>641</width>
-        <height>341</height>
+        <y>280</y>
+        <width>931</width>
+        <height>351</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -391,25 +378,71 @@
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>800</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>выгрузить</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>0</y>
+      <width>421</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Вариант</string>
+    </property>
+    <widget class="QRadioButton" name="firstButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>первый вариант</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="secondButton">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>20</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>второй вариант</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1260</width>
+     <width>1254</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menustatic">
-    <property name="title">
-     <string>выбрать данные</string>
-    </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
-    <addaction name="action_3"/>
-   </widget>
-   <addaction name="menustatic"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
