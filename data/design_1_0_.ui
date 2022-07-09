@@ -443,6 +443,14 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>меню</string>
+    </property>
+    <addaction name="action_4"/>
+    <addaction name="action_5"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
@@ -458,6 +466,16 @@
   <action name="action_3">
    <property name="text">
     <string>сагитальная плоскост</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="text">
+    <string>переменовать маркер</string>
+   </property>
+  </action>
+  <action name="action_5">
+   <property name="text">
+    <string>добавить параметр</string>
    </property>
   </action>
  </widget>

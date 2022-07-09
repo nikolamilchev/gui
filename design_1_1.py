@@ -212,7 +212,10 @@ class Ui_MainWindow(object):
         self.action_3.setObjectName("action_3")
         self.action_4 = QtWidgets.QAction(MainWindow)
         self.action_4.setObjectName("action_4")
+        self.action_5 = QtWidgets.QAction(MainWindow)
+        self.action_5.setObjectName("action_5")
         self.menu.addAction(self.action_4)
+        self.menu.addAction(self.action_5)
         self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -244,6 +247,7 @@ class Ui_MainWindow(object):
         self.menu.setTitle(_translate("MainWindow", "меню"))
         self.action.setText(_translate("MainWindow", "основное окно"))
         self.action_2.setText(_translate("MainWindow", "фронтальная плоскость"))
-        self.action_3.setText(_translate("MainWindow", "сагитальная плоскост"))
-        self.action_4.setText(_translate("MainWindow", "переменовать параметр"))
+        self.action_3.setText(_translate("MainWindow", "сагитальная плоскость"))
+        self.action_4.setText(_translate("MainWindow", "переменовать маркер"))
+        self.action_5.setText(_translate("MainWindow", "добавить параметр"))
 from pyqtgraph import PlotWidget
