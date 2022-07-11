@@ -1,6 +1,7 @@
 import csv
 import json
 import re
+import statistics
 import sys
 from functools import reduce
 from math import sqrt, acos
@@ -101,11 +102,11 @@ class addParameter(QtWidgets.QMainWindow,parameter_gui.Ui_MainWindow):
         calc = re.sub(r'[+|-]', (lambda x: '|'+str(x.group(0))), calc)
         plane = None
         if self.radioButton_3.isChecked():
-            plane = 0
+            plane = 0 # саггитальная
         if self.radioButton_2.isChecked():
-            plane = 1
+            plane = 1 # фронтальная
         if self.radioButton.isChecked():
-            plane = 2
+            plane = 2# аксиальная
         if os.path.isfile(name_json):
             with open(name_json, 'r') as f:
                 parameters = json.load(f)
@@ -183,7 +184,7 @@ class file_load(QtWidgets.QMainWindow,load_gui.Ui_MainWindow):
 
     def save_close(self):
         self.savepath()
-        self.close()
+        self.btnClosed()
 
     def savepath(self):
         path = self.lineEdit.text()
@@ -232,10 +233,6 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.setupUi(self)
         self.time_index = 0
         self.data= None
-        self.data_y_min_1 = None
-        self.data_x_min_1 = None
-        self.data_y_min_2 = None
-        self.data_x_min_2 = None
         self.name_mini_plot = None
         self.point_HS, self.point_TO = None, None
         self.parameters = None
@@ -252,8 +249,9 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.horizontalSlider.valueChanged.connect(self.change_value_1)
         self.pushButton.clicked.connect(self.change_value)  # Выполнить вычисления
         self.pushButton_2.clicked.connect(self.export_to_word)
-        self.comboBox_2.currentTextChanged.connect(self.saggital_plot)
-        self.comboBox_3.currentTextChanged.connect(self.frontal_plot)
+        self.planeBox_s.currentTextChanged.connect(self.saggital_plot)
+        self.planeBox_f.currentTextChanged.connect(self.frontal_plot)
+        self.planeBox_a.currentTextChanged.connect(self.aksial_plot)
         self.action_m.triggered.connect(self.open_marker)
         self.action_p.triggered.connect(self.open_parameter)
         self.action_l.triggered.connect(self.file_load)
@@ -336,24 +334,19 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         if os.path.exists('./plot/dynamic') == False:
             os.makedirs('plot/dynamic')
 
+
     def mini_plots(self, value):
         self.name_mini_plot = value
         df = self.data_calc
-        print(self.name_mini_plot)
         data_y = df[self.name_mini_plot]
         data_x = [i for i in range(len(data_y))]
         data_x = [i / max(data_x) * 100 for i in data_x]
-        self.data_y_min_1 = data_y
-        self.data_x_min_1 = data_x
-        self.data_y_min_2 = data_y
-        self.data_x_min_2 = data_x
-        self.mini_plots_1(data_y, data_x)
-
-    def mini_plots_1(self, data_y, data_x):
         self.parameter_plot.clear()
         self.parameter_plot.setBackground('w')
         self.parameter_plot.plot(data_x, data_y)
         self.parameter_plot.showGrid(x=True, y=True)
+
+
 
 
 
@@ -394,32 +387,37 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         return np.array([self.data[name + ' X'].values, self.data[name + ' Y'].values, self.data[name + ' Z'].values])
 
     def saggital_plot(self, value = None):
-        df = self.data_sagital
-        data_y = df[value]
+        works_col_s = [i for i in self.data_gait.columns if  i.split()[0] in value]
+        df = self.data_gait[works_col_s]
+        data_y = df.T.mean().T
         data_x = [i for i in range(len(data_y))]
         data_x = [i / max(data_x) * 100 for i in data_x]
-        self.data_y_min_1 = data_y
-        self.data_x_min_1 = data_x
-        self.data_y_min_2 = data_y
-        self.data_x_min_2 = data_x
-        self.mean_plot_2.clear()
-        self.mean_plot_2.setBackground('w')
-        self.mean_plot_2.plot(data_x, data_y)
-        self.mean_plot_2.showGrid(x=True, y=True)
+        self.mean_plot_s.clear()
+        self.mean_plot_s.setBackground('w')
+        self.mean_plot_s.plot(data_x, data_y)
+        self.mean_plot_s.showGrid(x=True, y=True)
 
     def frontal_plot(self, value = None):
-        df = self.data_frontal
-        data_y = df[value]
+        works_col_f = [i for i in self.data_gait.columns if  i.split()[0] in value]
+        df = self.data_gait[works_col_f]
+        data_y = df.T.mean().T
         data_x = [i for i in range(len(data_y))]
         data_x = [i / max(data_x) * 100 for i in data_x]
-        self.data_y_min_1 = data_y
-        self.data_x_min_1 = data_x
-        self.data_y_min_2 = data_y
-        self.data_x_min_2 = data_x
-        self.mean_plot_3.clear()
-        self.mean_plot_3.setBackground('w')
-        self.mean_plot_3.plot(data_x, data_y)
-        self.mean_plot_3.showGrid(x=True, y=True)
+        self.mean_plot_f.clear()
+        self.mean_plot_f.setBackground('w')
+        self.mean_plot_f.plot(data_x, data_y)
+        self.mean_plot_f.showGrid(x=True, y=True)
+
+    def aksial_plot(self, value = None):
+        works_col_a = [i for i in self.data_gait.columns if  i.split()[0] in value]
+        df = self.data_gait[works_col_a]
+        data_y = df.T.mean().T
+        data_x = [i for i in range(len(data_y))]
+        data_x = [i / max(data_x) * 100 for i in data_x]
+        self.mean_plot_a.clear()
+        self.mean_plot_a.setBackground('w')
+        self.mean_plot_a.plot(data_x, data_y)
+        self.mean_plot_a.showGrid(x=True, y=True)
 
     def frontal_saggital_move(self):# переделать
         if self.type_of_data ==1:
@@ -431,19 +429,54 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
     def change_type(self):
         if self.type_of_data ==1: # проверка что данные - динамика
-            self.comboBox_2.clear()
-            self.comboBox_2.addItems(self.data_gait.columns)
+            work_col_a = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane'] == 2]
+            work_col_f = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane']==1]
+            work_col_s = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane']==0]
+            self.planeBox_a.clear()
+            self.planeBox_a.addItems(work_col_a)
+            self.planeBox_f.clear()
+            self.planeBox_f.addItems(work_col_f)
+            self.planeBox_s.clear()
+            self.planeBox_s.addItems(work_col_s)
 
-            self.comboBox_3.setCurrentIndex(0)
-            self.comboBox_2.setCurrentIndex(0)
+            self.planeBox_a.setCurrentIndex(0)
+            self.planeBox_s.setCurrentIndex(0)
+            self.planeBox_f.setCurrentIndex(0)
+            df_to_model = []
+            for work_col in [work_col_s,work_col_f,work_col_a]:
+                df_p = None
+                for parameter in work_col:
+                    w_ = [i for i in self.data_gait.columns if i.split()[0] in parameter]
+                    df_ = pd.DataFrame([self.data_gait[w_].max(), self.data_gait[w_].min()])
+                    df_ = df_.rename({0: 'максимальное', 1: 'минимальное'})
+                    df_ = df_.T
+                    df_['амплитуда'] = df_.apply(lambda x: x['максимальное'] - x['минимальное'], axis=1)
+                    df_ = df_.T
+                    df_ = df_.iloc[::-1]
+                    df_ = df_.T
+                    df_ = pd.DataFrame(df_[:-1].apply(
+                        lambda x: str(round(statistics.mean(x), 1)) + "+" + str(round(statistics.stdev(x), 1))),
+                                       columns=[parameter])
+                    df_ = df_.T
+                    df_ = df_.T
+                    df_ = df_.iloc[::-1]
+                    if df_p is None:
+                        df_p = df_
+                    else:
+                        df_p = pd.concat([df_p, df_], axis=1)
+                df_to_model.append(df_p)
             model_1 = PandasModel(
-                self.data_gait.apply(lambda x: round(x, 4)))
+                df_to_model[2])
             model_2 = PandasModel(
-                self.data_gait.apply(lambda x: round(x, 4)))
-            self.tableView_3.setModel(model_1)
-            self.tableView_4.setModel(model_2)
-            self.saggital_plot(self.comboBox_2.currentText())
-            self.frontal_plot(self.comboBox_3.currentText())
+                df_to_model[1])
+            model_3 = PandasModel(
+                df_to_model[0])
+            self.tableView_a.setModel(model_1)
+            self.tableView_f.setModel(model_2)
+            self.tableView_s.setModel(model_3)
+            self.saggital_plot(self.planeBox_s.currentText())
+            self.frontal_plot(self.planeBox_f.currentText())
+            self.aksial_plot(self.planeBox_a.currentText())
 
     def calc(self):
         self.v2 = (self.take_data_by_name_new('L_IAS') + self.take_data_by_name_new('R_IAS') + self.take_data_by_name_new(
