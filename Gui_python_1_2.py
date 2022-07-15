@@ -239,6 +239,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.names_news = None
         self.type_of_data = None
         self.datas = []
+        if os.path.isfile('parameters_set.json') == False:
+            with open('parameters_set.json', 'w+') as f:
+                parameters = {'parameters': [{'parameter_name': 'SVA',
+                                              'parameter_calc': 'CV7|-LV5',
+                                              'anatomical_plane': 0}]}
+                json.dump(parameters, f)
         self.load_parameters()
         self.w = None
         self.path = None
@@ -443,7 +449,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.planeBox_s.setCurrentIndex(0)
             self.planeBox_f.setCurrentIndex(0)
             df_to_model = []
-            for work_col in [work_col_s,work_col_f,work_col_a]:
+            for work_col in [work_col_a,work_col_f,work_col_s]:
                 df_p = None
                 for parameter in work_col:
                     w_ = [i for i in self.data_gait.columns if i.split()[0] in parameter]
@@ -465,15 +471,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     else:
                         df_p = pd.concat([df_p, df_], axis=1)
                 df_to_model.append(df_p)
-            model_1 = PandasModel(
-                df_to_model[2])
-            model_2 = PandasModel(
-                df_to_model[1])
-            model_3 = PandasModel(
-                df_to_model[0])
-            self.tableView_a.setModel(model_1)
-            self.tableView_f.setModel(model_2)
-            self.tableView_s.setModel(model_3)
+            tableView_ = [self.tableView_a, self.tableView_f, self.tableView_s]
+            for i in range(3):
+                if df_to_model[i] is not None:
+                    model_ = PandasModel(
+                        df_to_model[i])
+                    tableView_[i].setModel(model_)
             self.saggital_plot(self.planeBox_s.currentText())
             self.frontal_plot(self.planeBox_f.currentText())
             self.aksial_plot(self.planeBox_a.currentText())
@@ -520,6 +523,9 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     if '-' in name_marker:
                         name_marker = name_marker[1:]
                         function_ = (lambda x, function_=function_: function_(x) * (-1))
+                    if '+' in name_marker:
+                        name_marker = name_marker[1:]
+                        function_ = (lambda x, function_=function_: function_(x))
                     t += function_(name_marker)
                 data_calc[parameter['parameter_name']] = t
             else:
@@ -538,6 +544,9 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                         if '-' in name_marker:
                             name_marker = name_marker[1:]
                             function_ = (lambda x, function_=function_: function_(x) * (-1))
+                        if '+' in name_marker:
+                            name_marker = name_marker[1:]
+                            function_ = (lambda x, function_=function_: function_(x))
                         t += function_(name_marker)
                     data_calc[parameter['parameter_name'] + ' шаг ' + str(j)] = t
         return data_calc
