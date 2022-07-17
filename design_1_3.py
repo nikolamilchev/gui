@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'data/design_1_2_.ui'
+# Form implementation generated from reading ui file 'data/design_1_2_2.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -73,7 +73,10 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 2)
         self.playButton = QtWidgets.QPushButton(self.layoutWidget)
         self.playButton.setObjectName("playButton")
-        self.gridLayout.addWidget(self.playButton, 3, 1, 1, 2)
+        self.gridLayout.addWidget(self.playButton, 3, 1, 1, 1)
+        self.stopButton = QtWidgets.QPushButton(self.layoutWidget)
+        self.stopButton.setObjectName("stopButton")
+        self.gridLayout.addWidget(self.stopButton, 3, 2, 1, 1)
         self.label_3 = QtWidgets.QLabel(self.frame)
         self.label_3.setGeometry(QtCore.QRect(0, 25, 151, 21))
         self.label_3.setObjectName("label_3")
@@ -190,7 +193,7 @@ class Ui_MainWindow(object):
         self.label_8.setGeometry(QtCore.QRect(720, 20, 131, 20))
         self.label_8.setObjectName("label_8")
         self.gaitBox = QtWidgets.QCheckBox(self.centralwidget)
-        self.gaitBox.setGeometry(QtCore.QRect(960, 780, 171, 20))
+        self.gaitBox.setGeometry(QtCore.QRect(980, 780, 171, 20))
         self.gaitBox.setObjectName("gaitBox")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -229,6 +232,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "перейти"))
         self.label.setText(_translate("MainWindow", "временной промежуток:"))
         self.playButton.setText(_translate("MainWindow", "старт"))
+        self.stopButton.setText(_translate("MainWindow", "стоп"))
         self.label_3.setText(_translate("MainWindow", "сагиттальная плоскость"))
         self.label_2.setText(_translate("MainWindow", "фронтальная плоскость"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "основное окно"))

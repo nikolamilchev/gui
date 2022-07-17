@@ -23,7 +23,7 @@ from PyQt5 import QtWidgets
 
 from PyQt5 import QtCore
 
-import design_1_2 as design
+import design_1_3 as design
 import add_parameter as parameter_gui
 import marker_rename as marker_gui
 import file_load as load_gui
@@ -271,7 +271,13 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 self.market_name = out['market_name']
                 work_col = [i for i in self.data.columns if i.find('Type') == -1]
                 self.data = self.data[work_col].astype(float)
-                self.horizontalSlider.setMaximum(self.data.shape[0])
+                # включение слайдера
+                if self.type_of_data == 1:
+                    self.horizontalSlider.setMaximum(self.data.shape[0])
+                    self.horizontalSlider.setMinimum(1)
+                else:
+                    self.horizontalSlider.setMaximum(1)
+                    self.horizontalSlider.setMinimum(1)
                 self.type_of_data = out['type']
                 # изменение размера окна
                 self.showMaximized()
@@ -321,7 +327,12 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.data = self.data[work_col].astype(float)
             self.type_of_data = out['type']
             #включение слайдера
-            self.horizontalSlider.setMaximum(self.data.shape[0])
+            if self.type_of_data == 1:
+                self.horizontalSlider.setMaximum(self.data.shape[0])
+                self.horizontalSlider.setMinimum(1)
+            else:
+                self.horizontalSlider.setMaximum( 1)
+                self.horizontalSlider.setMinimum(1)
             # изменение размера окна
             self.showMaximized()
             self.showNormal()
@@ -357,7 +368,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
 
     def change_value_1(self, value):
-        self.time_index = int(value)
+        self.time_index = int(value)-1
         self.lcdNumber.display(int(value))
 
     def change_value(self, value):
@@ -384,8 +395,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.front_widget.plot(x, y, pen=None, symbol='o', symbolSize=7)
         self.front_widget.showGrid(x=True, y=True)
 
-    def changeValue(self, value):  # Toolbar
-        self.time_index = value
+
 
 
 
@@ -615,8 +625,15 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
 
 
     def show_table(self):
-        model_1 = PandasModel(
-            self.data_calc.loc[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index)))
+        work_col = [i for i in self.data_calc.columns if i not in 'Time']
+        if self.type_of_data ==1:
+            model_1 = PandasModel(
+                self.data_calc[work_col].loc[self.time_index].apply(lambda x: round(x, 8)).to_frame(name="time " + str(self.time_index+1)))
+        else:
+            model_1 = PandasModel(
+                self.data_calc[work_col].mean().apply(lambda x: round(x, 8)).to_frame(
+                    name="time " + str(self.time_index+1)))
+
         self.tableView.setModel(model_1)
         # переделать вывод использовать тул бар для вывода отрисовать графики
 

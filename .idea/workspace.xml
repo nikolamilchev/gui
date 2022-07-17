@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55acc723-b5ed-4b49-b218-75c12e03d180" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/design_1_3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media_player.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_media_qt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gui_python_1_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Gui_python_1_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/design_1_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/design_1_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/design_1_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/design_1_3.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -211,7 +208,8 @@
       <workItem from="1657499914487" duration="284000" />
       <workItem from="1657500276722" duration="461000" />
       <workItem from="1657653020763" duration="7423000" />
-      <workItem from="1657915775094" duration="9818000" />
+      <workItem from="1657915775094" duration="10850000" />
+      <workItem from="1658011970081" duration="2862000" />
     </task>
     <task id="LOCAL-00001" summary="+">
       <created>1652143982365</created>
@@ -241,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657499003128</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="+">
+      <created>1657927389490</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1657927389490</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -268,31 +273,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
-          <line>233</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
-          <line>375</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
-          <line>387</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
-          <line>379</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
-          <line>378</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Gui_python_1_1.py</url>
           <line>277</line>
           <option name="timeStamp" value="39" />
@@ -304,15 +284,30 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
-          <line>384</line>
-          <option name="timeStamp" value="41" />
+          <line>336</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
+          <line>330</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
+          <line>275</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Gui_python_1_2.py</url>
+          <line>276</line>
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/gui$Gui_python_1_0.coverage" NAME="Gui_python_1_0 Coverage Results" MODIFIED="1654991795020" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/gui$Gui_python_1_2.coverage" NAME="Gui_python_1_2 Coverage Results" MODIFIED="1657927197214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/gui$Gui_python_1_2.coverage" NAME="Gui_python_1_2 Coverage Results" MODIFIED="1658016664304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gui$design_1_2.coverage" NAME="Gui_python_1_2 Coverage Results" MODIFIED="1655165380454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gui$test_media_qt.coverage" NAME="test_media_qt Coverage Results" MODIFIED="1657923304069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/gui$Gui_python_1_1.coverage" NAME="Gui_python_1_1 Coverage Results" MODIFIED="1652182864210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
