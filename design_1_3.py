@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from pyqtgraph import PlotWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -192,9 +192,6 @@ class Ui_MainWindow(object):
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(720, 20, 131, 20))
         self.label_8.setObjectName("label_8")
-        self.gaitBox = QtWidgets.QCheckBox(self.centralwidget)
-        self.gaitBox.setGeometry(QtCore.QRect(980, 780, 171, 20))
-        self.gaitBox.setObjectName("gaitBox")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1315, 26))
@@ -241,11 +238,10 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "аксиальная плоскость"))
         self.pushButton_2.setText(_translate("MainWindow", "выгрузить"))
         self.label_8.setText(_translate("MainWindow", "Выбор пациента"))
-        self.gaitBox.setText(_translate("MainWindow", "разбиение на фазы"))
         self.menu.setTitle(_translate("MainWindow", "меню"))
         self.action.setText(_translate("MainWindow", "основное окно"))
         self.action_2.setText(_translate("MainWindow", "фронтальная плоскость"))
-        self.action_3.setText(_translate("MainWindow", "сагитальная плоскост"))
+        self.action_3.setText(_translate("MainWindow", "сагитальная плоскость"))
         self.action_m.setText(_translate("MainWindow", "переменовать маркер"))
         self.action_p.setText(_translate("MainWindow", "добавить параметр"))
         self.action_l.setText(_translate("MainWindow", "загрузить файл"))

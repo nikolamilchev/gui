@@ -1,17 +1,17 @@
 import csv
 import json
 import re
+import shutil
 import statistics
 import sys
 from functools import reduce
 from math import sqrt, acos
-
+import docx
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy
-import scipy.io
 import scipy.io
 import scipy.signal
 from PyQt5.QtWidgets import QFileDialog
@@ -266,28 +266,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def change_data_name(self,value= None):
         for i in self.datas:
             if i['name'] == value:
-                out = i
-                self.data = out['data']
-                self.market_name = out['market_name']
-                work_col = [i for i in self.data.columns if i.find('Type') == -1]
-                self.data = self.data[work_col].astype(float)
-                # включение слайдера
-                if self.type_of_data == 1:
-                    self.horizontalSlider.setMaximum(self.data.shape[0])
-                    self.horizontalSlider.setMinimum(1)
-                else:
-                    self.horizontalSlider.setMaximum(1)
-                    self.horizontalSlider.setMinimum(1)
-                self.type_of_data = out['type']
-                # изменение размера окна
-                self.showMaximized()
-                self.showNormal()
-                # расчет данных
-                self.calc()
-                self.change_value(None)
-                # вывод графиков
-                self.mini_plots(value=self.names_news[0])
-                self.change_type()
+                self.file_change(i)
 
     def file_load(self):
         if self.w is None:
@@ -313,6 +292,29 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.w = None
             self.open_parameter()
 
+    def file_change(self,out):
+        self.data = out['data']
+        self.market_name = out['market_name']
+        work_col = [i for i in self.data.columns if i.find('Type') == -1]
+        self.data = self.data[work_col].astype(float)
+        self.type_of_data = out['type']
+        # включение слайдера результат зависит от типа данных
+        if self.type_of_data == 1:
+            self.horizontalSlider.setMaximum(self.data.shape[0])
+            self.horizontalSlider.setMinimum(1)
+        else:
+            self.horizontalSlider.setMaximum(1)
+            self.horizontalSlider.setMinimum(1)
+        # изменение размера окна
+        self.showMaximized()
+        self.showNormal()
+        # расчет данных
+        self.calc()
+        self.change_value(None)
+        # вывод графиков
+        self.mini_plots(value=self.names_news[0])
+        self.change_type()
+
     def download_file(self,out = None):
         if out is  None:
             pass
@@ -321,35 +323,89 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.fileBox.clear()
             names = [i['name'] for i in self.datas]
             self.fileBox.addItems(names)
-            self.data = out['data']
-            self.market_name = out['market_name']
-            work_col = [i for i in self.data.columns if i.find('Type') == -1]
-            self.data = self.data[work_col].astype(float)
-            self.type_of_data = out['type']
-            #включение слайдера
-            if self.type_of_data == 1:
-                self.horizontalSlider.setMaximum(self.data.shape[0])
-                self.horizontalSlider.setMinimum(1)
-            else:
-                self.horizontalSlider.setMaximum( 1)
-                self.horizontalSlider.setMinimum(1)
-            # изменение размера окна
-            self.showMaximized()
-            self.showNormal()
-            # расчет данных
-            self.calc()
-            self.change_value(None)
-            #вывод графиков
-            self.mini_plots(value=self.names_news[0])
-            self.change_type()
+            self.fileBox.setCurrentText(out['name'])
 
     def export_to_word(self):
         # полностью переделать
-        return 0
-        if os.path.exists('./plot/static') == False:
-            os.makedirs('plot/static')
-        if os.path.exists('./plot/dynamic') == False:
-            os.makedirs('plot/dynamic')
+        if os.path.exists('./export') == False:
+            os.makedirs('./export')
+        doc = docx.Document()
+        table = doc.add_table(rows=0, cols=3)
+        lst_parameter = [i['parameter_name'] for i in self.parameters['parameters']]
+        if self.type_of_data == 1:
+            data_gait = self.data_gait
+            count_phase = int(statistics.mean([k - j for j, k in zip(self.point_HS, self.point_TO)]))
+            for i in range(len(lst_parameter)):
+                lst_ = [j for j in data_gait.columns if lst_parameter[i] == j.split()[0]]
+                df = data_gait[lst_]
+                fig, axes = plt.subplots(figsize=(40, 40))
+                x_arrange = np.arange(len(df)) / len(df) * (100 / (np.arange(len(df))[-1] / len(df)))
+                ma = df.T.mean().T
+                mstd = df.T.std().T
+                axes.set(xlabel='Цикл шага (%)', ylabel='смещение мм')
+                axes.set_xlim([0, 100])
+                axes.plot(x_arrange, ma, "b");
+                axes.legend(loc='center right')
+                axes.fill_between(x_arrange, ma - mstd, ma + mstd, color="b", alpha=0.2)
+
+                name = './export/' + lst_parameter[i] + '.png'
+                fig.savefig(name)
+                fig, axes = plt.subplots(figsize=(40, 40))
+                ds_1 = pd.DataFrame()
+                ds_2 = pd.DataFrame()
+                for j in range(len(lst_)):
+                    ds_1[lst_[j] + ' фаза переноса'] = data_gait[lst_[j]]
+                    ds_2[lst_[j] + ' фаза переката'] = data_gait[lst_[j]][:count_phase]
+                df_1 = ds_1.copy()
+                df_2 = ds_2.copy()
+                ma_1 = df_1.T.mean().T
+                mstd_1 = df_1.T.std().T
+                ma_2 = df_2.T.mean().T
+                mstd_2 = df_2.T.std().T
+                df_1['цикл шага'] = np.arange(len(df_1)) / len(df_1) * (100 / (np.arange(len(df_1))[-1] / len(df_1)))
+                df_2['цикл шага'] = [k for k in
+                                     np.arange(len(df_1)) / len(df_1) * (100 / (np.arange(len(df_1))[-1] / len(df_1)))][
+                                    :df_2.shape[0]]
+                axes.set(xlabel='Цикл шага (%)', ylabel='смещение мм')
+                axes.set_xlim([0, 100])
+                axes.plot(df_1['цикл шага'], ma_1, "r");
+                axes.plot(df_2['цикл шага'], ma_2, "g");
+                axes.legend(loc='center right')
+                axes.fill_between(df_1['цикл шага'], ma_1 - mstd_1, ma_1 + mstd_1, color="r", alpha=0.2)
+                axes.fill_between(df_2['цикл шага'], ma_2 - mstd_2, ma_2 + mstd_2, color="g", alpha=0.2)
+                name_1 = './export/' + lst_parameter[i] + ' фазы' + '.png'
+                fig.savefig(name_1)
+                # применяем стиль для таблицы
+                table.style = 'Table Grid'
+                row_cells = table.add_row().cells
+                row_cells[0].text = lst_parameter[i]
+                paragraph = row_cells[1].paragraphs[0]
+                run = paragraph.add_run()
+                run.add_picture(name, width=1400000, height=1400000)
+                paragraph = row_cells[2].paragraphs[0]
+                run = paragraph.add_run()
+                run.add_picture(name_1, width=1400000, height=1400000)
+            stat_df = self.biomechanical_parameters(self.data_gait, lst_parameter)
+        else:
+            stat_df = self.biomechanical_parameters(self.data_calc, lst_parameter)
+        paragraph = doc.add_paragraph('статистические данные')
+        paragraph.alignment = 1
+        t = doc.add_table(stat_df.shape[0] + 1, stat_df.shape[1] + 1)
+        # add the header rows.
+        for j in range(stat_df.shape[1]):
+            t.cell(0, j + 1).text = stat_df.columns[j]
+        # add name of rows
+        for j in range(stat_df.shape[0]):
+            t.cell(j + 1, 0).text = stat_df.T.columns[j]
+
+        # add the rest of the data frame
+        for i in range(stat_df.shape[0]):
+            for j in range(stat_df.shape[1]):
+                t.cell(i + 1, j + 1).text = str(stat_df.values[i, j])
+
+        doc.save(self.fileBox.currentText()+'.docx')
+
+        shutil.rmtree('./export')
 
 
     def mini_plots(self, value):
@@ -386,6 +442,8 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.sagital_widget.setBackground('w')
         self.sagital_widget.plot(x, y, pen=None, symbol='o', symbolSize=7)
         self.sagital_widget.showGrid(x=True, y=True)
+        self.sagital_widget.setRange(xRange=[min(x),max(x)])
+        self.sagital_widget.setRange(yRange=[min(y),max(y)])
         lst_y = [i for i in data_dynamic.columns if i.split()[0] in self.market_name and i.split()[1] == 'Y']
         lst_z = [i for i in data_dynamic.columns if i.split()[0] in self.market_name and i.split()[1] == 'Z']
         x = data_dynamic[lst_y].values[t]
@@ -394,6 +452,8 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.front_widget.setBackground('w')
         self.front_widget.plot(x, y, pen=None, symbol='o', symbolSize=7)
         self.front_widget.showGrid(x=True, y=True)
+        self.front_widget.setRange(xRange=[min(x),max(x)])
+        self.front_widget.setRange(yRange=[min(y),max(y)])
 
 
 
@@ -403,7 +463,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         return np.array([self.data[name + ' X'].values, self.data[name + ' Y'].values, self.data[name + ' Z'].values])
 
     def saggital_plot(self, value = None):
-        works_col_s = [i for i in self.data_gait.columns if  i.split()[0] in value]
+        works_col_s = [i for i in self.data_gait.columns if  i.split()[0] == value]
         df = self.data_gait[works_col_s]
         data_y = df.T.mean().T
         data_x = [i for i in range(len(data_y))]
@@ -414,7 +474,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.mean_plot_s.showGrid(x=True, y=True)
 
     def frontal_plot(self, value = None):
-        works_col_f = [i for i in self.data_gait.columns if  i.split()[0] in value]
+        works_col_f = [i for i in self.data_gait.columns if  i.split()[0] == value]
         df = self.data_gait[works_col_f]
         data_y = df.T.mean().T
         data_x = [i for i in range(len(data_y))]
@@ -425,7 +485,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.mean_plot_f.showGrid(x=True, y=True)
 
     def aksial_plot(self, value = None):
-        works_col_a = [i for i in self.data_gait.columns if  i.split()[0] in value]
+        works_col_a = [i for i in self.data_gait.columns if  i.split()[0] == value]
         df = self.data_gait[works_col_a]
         data_y = df.T.mean().T
         data_x = [i for i in range(len(data_y))]
@@ -435,52 +495,54 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.mean_plot_a.plot(data_x, data_y)
         self.mean_plot_a.showGrid(x=True, y=True)
 
-    def frontal_saggital_move(self):# переделать
-        if self.type_of_data ==1:
-            if self.point_HS[0] >= self.point_TO[0]:
-                self.point_TO = self.point_TO[1:]
-            param_1_del = self.calc_parameters(self.point_HS,self.point_TO)
-            self.data_gait = param_1_del
+    def frontal_saggital_move(self):
+        if self.point_HS[0] >= self.point_TO[0]:
+            self.point_TO = self.point_TO[1:]
+        self.data_gait = self.calc_parameters(self.point_HS,self.point_TO)
 
+    def biomechanical_parameters(self,data,parameters):
+        df_p = None
+        for parameter in parameters:
+            w_ = [i for i in data.columns if i.split()[0] == parameter]
+            df_ = pd.DataFrame([data[w_].max(), data[w_].min()])
+            df_ = df_.rename({0: 'максимальное', 1: 'минимальное'})
+            df_ = df_.T
+            if self.type_of_data == 1:
+                df_['амплитуда'] = df_.apply(lambda x: x['максимальное'] - x['минимальное'], axis=1)
+                df_ = df_.T
+                df_ = df_.iloc[::-1]
+                df_ = df_.T
+                df_ = pd.DataFrame(df_.apply(
+                    lambda x: str(round(statistics.mean(x), 1)) + "+" + str(round(statistics.stdev(x), 1))),
+                    columns=[parameter])
+            else:
+                df_ = df_.apply(lambda x: round(x))
+                df_ = df_.T
+            if df_p is None:
+                df_p = df_
+            else:
+                df_p = pd.concat([df_p, df_], axis=1)
+        return df_p
 
     def change_type(self):
+        self.planeBox_a.clear()
+        self.planeBox_f.clear()
+        self.planeBox_s.clear()
         if self.type_of_data ==1: # проверка что данные - динамика
             work_col_a = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane'] == 2]
             work_col_f = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane']==1]
             work_col_s = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane']==0]
-            self.planeBox_a.clear()
             self.planeBox_a.addItems(work_col_a)
-            self.planeBox_f.clear()
             self.planeBox_f.addItems(work_col_f)
-            self.planeBox_s.clear()
             self.planeBox_s.addItems(work_col_s)
 
             self.planeBox_a.setCurrentIndex(0)
             self.planeBox_s.setCurrentIndex(0)
             self.planeBox_f.setCurrentIndex(0)
             df_to_model = []
-            for work_col in [work_col_a,work_col_f,work_col_s]:
-                df_p = None
-                for parameter in work_col:
-                    w_ = [i for i in self.data_gait.columns if i.split()[0] in parameter]
-                    df_ = pd.DataFrame([self.data_gait[w_].max(), self.data_gait[w_].min()])
-                    df_ = df_.rename({0: 'максимальное', 1: 'минимальное'})
-                    df_ = df_.T
-                    df_['амплитуда'] = df_.apply(lambda x: x['максимальное'] - x['минимальное'], axis=1)
-                    df_ = df_.T
-                    df_ = df_.iloc[::-1]
-                    df_ = df_.T
-                    df_ = pd.DataFrame(df_[:-1].apply(
-                        lambda x: str(round(statistics.mean(x), 1)) + "+" + str(round(statistics.stdev(x), 1))),
-                                       columns=[parameter])
-                    df_ = df_.T
-                    df_ = df_.T
-                    df_ = df_.iloc[::-1]
-                    if df_p is None:
-                        df_p = df_
-                    else:
-                        df_p = pd.concat([df_p, df_], axis=1)
-                df_to_model.append(df_p)
+            for parameters in [work_col_a,work_col_f,work_col_s]:
+                stat_df = self.biomechanical_parameters(self.data_gait, parameters)
+                df_to_model.append(stat_df)
             tableView_ = [self.tableView_a, self.tableView_f, self.tableView_s]
             for i in range(3):
                 if df_to_model[i] is not None:
@@ -490,18 +552,33 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.saggital_plot(self.planeBox_s.currentText())
             self.frontal_plot(self.planeBox_f.currentText())
             self.aksial_plot(self.planeBox_a.currentText())
+        else:
+            self.mean_plot_s.clear()
+            self.mean_plot_f.clear()
+            self.mean_plot_a.clear()
+            self.mean_plot_a.setBackground('w')
+            self.mean_plot_f.setBackground('w')
+            self.mean_plot_s.setBackground('w')
+            work_col_a = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane'] == 2]
+            work_col_f = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane'] == 1]
+            work_col_s = [i['parameter_name'] for i in self.parameters['parameters'] if i['anatomical_plane'] == 0]
+            df_to_model = []
+            for parameters in [work_col_a, work_col_f, work_col_s]:
+                stat_df = self.biomechanical_parameters(self.data_calc, parameters)
+                df_to_model.append(stat_df)
+        tableView_ = [self.tableView_a, self.tableView_f, self.tableView_s]
+        for i in range(3):
+            if df_to_model[i] is not None:
+                model_ = PandasModel(
+                    df_to_model[i])
+                tableView_[i].setModel(model_)
 
     def calc(self):
-        self.v2 = (self.take_data_by_name_new('L_IAS') + self.take_data_by_name_new('R_IAS') + self.take_data_by_name_new(
-            'L_IPS') + self.take_data_by_name_new('R_IPS')) / 4
-
-
-
-        data_1 = self.calc_parameters()
-        self.data_calc = data_1
+        self.data_calc = self.calc_parameters()
         self.data_calc['Time'] = self.data['Time']
-        self.point_HS, self.point_TO = self.step_separator(self.take_data_by_name_new('R_SAE'))
-        self.frontal_saggital_move()
+        if self.type_of_data == 1:
+            self.point_HS, self.point_TO = self.step_separator(self.take_data_by_name_new('R_SAE'))
+            self.frontal_saggital_move()
 
     def load_parameters(self):
         with open('parameters_set.json', 'r') as f:
@@ -512,7 +589,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.comboBox.clear()
         self.comboBox.addItems(self.names_news)
 
-    def calc_parameters(self, RHS=None, RTO=None):  # расчет таблицы параметров
+    def calc_parameters(self,RHS=None, RTO=None):  # расчет таблицы параметров
         data_calc = pd.DataFrame()
         with open('parameters_set.json', 'r') as f:
             parameters = json.load(f)
@@ -539,7 +616,7 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                     t += function_(name_marker)
                 data_calc[parameter['parameter_name']] = t
             else:
-                for j in range(1, min(len(RHS), len(RTO))):
+                for j in range(1, len(RHS)):
                     t = pd.Series(np.zeros(RHS[j] - RHS[j - 1]))
                     for name_marker in parameter['parameter_calc'].split('|'):
                         function_ = (lambda x: self.take_data_by_name_new(x)[plane_][RHS[j - 1]:RHS[j]])
